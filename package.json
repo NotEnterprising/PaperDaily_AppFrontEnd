@@ -1,0 +1,22 @@
+{
+  "name": "ssk-hfb",
+  "version": "1.0.0",
+  "description": "| 简体中文 |",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CNLHB/ssk-hfb.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CNLHB/ssk-hfb/issues"
+  },
+  "homepage": "https://github.com/CNLHB/ssk-hfb#readme"
+}
