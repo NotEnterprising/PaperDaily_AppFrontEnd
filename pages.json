@@ -1,5 +1,17 @@
 {
-	"pages": [{
+	"pages": [
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
+		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "韩府帮",
@@ -262,16 +274,6 @@
 				}
 			}
 		}, {
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "登录",
-				"app-plus": {
-					"titleNView": false,
-					"bounce": "none",
-					"scrollIndicator": "none"
-				}
-			}
-		}, {
 			"path": "pages/user-space/user-space",
 			"style": {
 				"navigationBarTitleText": "个人空间",
@@ -376,7 +378,7 @@
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "韩府帮",
+		"navigationBarTitleText": "PaperDaily",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#FFFFFF"
 

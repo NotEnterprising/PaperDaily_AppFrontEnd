@@ -12,7 +12,7 @@
 			<view class="tui-view-input">
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
-						<tui-icon name="mobile" color="#6d7a87" :size="20"></tui-icon>
+						<tui-icon name="mobile" color="#6d7a87" :size="40"></tui-icon>
 
 						<input :adjust-position="false" :value="mobile" placeholder="请输入用户名" placeholder-class="tui-phcolor" type="text"
 						 maxlength="36" @input="inputMobile" />
@@ -23,7 +23,7 @@
 				</tui-list-cell>
 				<tui-list-cell v-if="!status" :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
-						<tui-icon name="pwd" color="#6d7a87" :size="20"></tui-icon>
+						<tui-icon name="pwd" color="#6d7a87" :size="40"></tui-icon>
 						<input :adjust-position="false" :value="password" placeholder="请输入密码" :password="true" placeholder-class="tui-phcolor"
 						 type="text" maxlength="36" @input="inputPwd" />
 						<view class="tui-icon-close" v-show="password" @tap="clearInput(2)">
@@ -75,7 +75,6 @@
 		userLogin,
 		userLoginCode,
 		login,
-		getUserInfo,
 	} from '@/api/login.js'
 	export default {
 		computed: {
@@ -141,11 +140,6 @@
 				if (this.btnSendText > 0) {
 					return;
 				}
-				// 验证手机号合法性
-				if (!this.isPhone(this.mobile)) {
-					this.$http.toast("请输入正确的手机号码");
-					return;
-				}
 				// 请求服务器，发送验证码
 				let {
 					code
@@ -204,7 +198,7 @@
 				
 				try {
 					uni.setStorageSync('userInfo', JSON.stringify(data.userInfo));
-					uni.setStorageSync('token', data.access_token);
+					uni.setStorageSync('token', data.userInfo.access_token);
 				} catch (e) {
 				
 				}

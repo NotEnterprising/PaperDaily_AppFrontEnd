@@ -10,7 +10,7 @@
 			<view class="tui-view-input">
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
-						<tui-icon name="username" color="#6d7a87" :size="40"></tui-icon>
+						<tui-icon name="people" color="#6d7a87" :size="40"></tui-icon>
 						<input :value="username" placeholder="请输入用户名" placeholder-class="tui-phcolor" type="text" maxlength="36" @input="inputUserName" />
 						<view class="tui-icon-close" v-show="username" @tap="clearInput(1)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
@@ -29,7 +29,7 @@
 				</tui-list-cell>
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
-						<tui-icon name="email" color="#6d7a87" :size="40"></tui-icon>
+						<tui-icon name="mail" color="#6d7a87" :size="40"></tui-icon>
 						<input :value="email" placeholder="邮箱" placeholder-class="tui-phcolor" type="text"
 						 maxlength="36" @input="inputEmail" />
 						<view class="tui-icon-close" v-show="email" @tap="clearInput(3)">

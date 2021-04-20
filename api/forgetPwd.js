@@ -2,13 +2,12 @@ import axios from '@/config/requestConfig.js';
 import {
 	headerForm
 } from './common.js'
-export const sendForgetCode = async (phone) => {
-	let data = await axios.get('user/forget/' + phone)
-
-	return data
+export const sendForgetCode = async (data) => {
+	let result = await axios.post('user/forget\-password',data)
+	return result
 }
 
 export const forgetPwd = async (data) => {
-	let result = await axios.post('user/forget/code', data, headerForm);
+	let result = await axios.put('user/forget\-password', data);
 	return result
 }

@@ -5,16 +5,16 @@
 			<view class="tui-view-input">
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
-						<tui-icon name="mobile" color="#6d7a87" :size="20"></tui-icon>
-						<input :value="mobile" placeholder="请输入手机号" placeholder-class="tui-phcolor" type="number" maxlength="11" @input="inputMobile" />
-						<view class="tui-icon-close" v-show="mobile" @tap="clearInput(1)">
+						<tui-icon name="mail" color="#6d7a87" :size="40"></tui-icon>
+						<input :value="email" placeholder="请输入邮箱" placeholder-class="tui-phcolor" type="text" maxlength="40" @input="inputEmail" />
+						<view class="tui-icon-close" v-show="email" @tap="clearInput(1)">
 							<tui-icon name="close-fill" :size="32" color="#bfbfbf"></tui-icon>
 						</view>
 					</view>
 				</tui-list-cell>
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
-						<tui-icon name="shield" color="#6d7a87" :size="20"></tui-icon>
+						<tui-icon name="shield" color="#6d7a87" :size="40"></tui-icon>
 						<input placeholder="请输入验证码" placeholder-class="tui-phcolor" type="text" maxlength="6" @input="inputCode" />
 						<view @tap="getCheckNum" class="tui-btn-send" :class="{ 'tui-gray': isSend }" :hover-class="isSend ? '' : 'tui-opcity'"
 						 :hover-stay-time="150">{{ btnSendText }}</view>
@@ -22,7 +22,7 @@
 				</tui-list-cell>
 				<tui-list-cell :hover="false" :lineLeft="false" backgroundColor="transparent">
 					<view class="tui-cell-input">
-						<tui-icon name="pwd" color="#6d7a87" :size="20"></tui-icon>
+						<tui-icon name="pwd" color="#6d7a87" :size="40"></tui-icon>
 						<input :value="password" placeholder="请输入新密码" :password="true" placeholder-class="tui-phcolor" type="text"
 						 maxlength="40" @input="inputPwd" />
 						<view class="tui-icon-close" v-show="password" @tap="clearInput(2)">
@@ -44,7 +44,7 @@
 		computed: {
 			disabled: function() {
 				let bool = true;
-				if (this.mobile && this.code && this.password) {
+				if (this.email && this.code && this.password) {
 					bool = false;
 				}
 				return bool;
@@ -52,7 +52,7 @@
 		},
 		data() {
 			return {
-				mobile: '',
+				email: '',
 				password: '',
 				code: '',
 				isSend: false,
@@ -63,23 +63,23 @@
 			inputCode(e) {
 				this.code = e.detail.value;
 			},
-			inputMobile: function(e) {
-				this.mobile = e.detail.value;
+			inputEmail: function(e) {
+				this.email = e.detail.value;
 			},
 			inputPwd: function(e) {
 				this.password = e.detail.value;
 			},
 			clearInput(type) {
 				if (type == 1) {
-					this.mobile = '';
+					this.email = '';
 				} else {
 					this.password = '';
 				}
 			},
-			// 验证手机号码
-			isPhone() {
-				let mPattern = /^1[34578]\d{9}$/;
-				return mPattern.test(this.mobile);
+			//验证邮箱合法
+			isEmail() {
+				let mPattern=/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+				return mPattern.test(this.email);
 			},
 			// 获取验证码
 			async getCheckNum() {
@@ -87,9 +87,9 @@
 					return;
 				}
 				// 验证手机号合法性
-				if (!this.isPhone()) {
+				if (!this.isEmail()) {
 					uni.showToast({
-						title: '请输入正确的手机号码',
+						title: '请输入正确的邮箱',
 						icon: "none"
 					});
 					return;
@@ -97,7 +97,7 @@
 				// 请求服务器，发送验证码
 				let {
 					code
-				} = await sendForgetCode(this.mobile)
+				} = await sendForgetCode({"email":this.email})
 				console.log(code)
 				// 发送成功，开启倒计时
 				this.btnSendText = 60;
@@ -111,15 +111,14 @@
 			},
 			async forgetPassword(){
 				let data = await forgetPwd({
-					phone: this.mobile,
+					email: this.email,
 					password: this.password,
 					code: this.code,
 				})
-				if (data.status == 404) {
+				if (data.status == 400) {
 					uni.showToast({
-						title: '账号或密码错误！',
+						title: '用户不存在',
 						icon: 'none'
-
 					})
 					return
 				}

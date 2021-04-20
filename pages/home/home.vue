@@ -37,7 +37,7 @@
 	import otherLogin from "../../components/home/other-login.vue";
 	import homeData from "../../components/home/home-data.vue";
 	import {
-		getUserAccess
+		getUserProfile,
 	} from "@/api/home.js";
 
 	import {
@@ -58,8 +58,9 @@
 		},
 		onShow() {
 			if (this.userInfo.id) {
-				this.homeinfo.userpic = this.userInfo.authorUrl
-				this.homeinfo.username = this.userInfo.userName
+				this.homeinfo.userpic = "https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png"
+				this.homeinfo.username = this.userInfo.username
+				this.homeinfo.email = this.userInfo.email
 				if (!this.islogin) {
 					this.initDat()
 				}
@@ -79,6 +80,7 @@
 			if (this.userInfo.id) {
 				this.homeinfo.userpic = this.userInfo.authorUrl
 				this.homeinfo.username = this.userInfo.userName
+				this.homeinfo.email = this.userInfo.email
 				if (!this.islogin) {
 					this.initDat()
 				}
@@ -113,27 +115,6 @@
 						num: 0
 					},
 				],
-				list: [{
-						icon: "liulan",
-						name: "浏览历史",
-						clicktype: "navigateTo",
-						url: "../../pages/user-history/user-history"
-					},
-					// { icon:"huiyuanvip",name:"韩府认证",clicktype:"",url:"" },
-					// { icon:"keyboard",name:"审核历史",clicktype:"",url:"" },
-					{
-						icon: "dashang",
-						name: "打赏我们",
-						clicktype: "showImage",
-						url: ""
-					},
-					{
-						icon: "weixin",
-						name: "联系我们",
-						clicktype: "contactme",
-						url: ""
-					},
-				]
 			};
 		},
 		// 监听下拉刷新
@@ -161,14 +142,19 @@
 					url: '../login/login'
 				});
 			},
+			"total_post": 0,
+			"total_like": 0,
+			"total_fan": 0,
 			async initDat() {
 				if (this.userInfo && this.userInfo.id) {
-					let userAccess = await getUserAccess()
-					this.homeinfo.totalnum = userAccess.allAcc
-					this.homeinfo.todaynum = userAccess.dayAcc
-					this.homedata[0].num = userAccess.topicCount
-					this.homedata[1].num = userAccess.commCount
-					this.homedata[2].num = userAccess.collCount
+					let userProfile = await getUserProfile()
+					this.homeinfo.total_like = userProfile.total_like
+					this.homeinfo.total_post = userProfile.total_post
+					this.homeinfo.total_fan = userProfile.total_fan
+					this.homeinfo.email = userProfile.email
+					this.homedata[0].num = userProfile.total_post
+					this.homedata[1].num = userProfile.total_fan
+					this.homedata[2].num = userProfile.total_collect
 					this.islogin = true
 				}
 			},

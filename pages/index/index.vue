@@ -5,7 +5,7 @@
 			<view class="iconfont icon-icon_A font-x" @tap="checkIn"></view>
 			<view class="iconfont icon-sousuo serach">
 			</view>
-			<input class="uni-input" type="text" placeholder="韩府帮" @focus="searchInfo" />
+			<input class="uni-input" type="text" placeholder="PaperDaily" @focus="searchInfo" />
 			<view class="iconfont icon-fabiao font-x" @tap="publish"></view>
 		</view> -->
 		<!-- #endif -->
