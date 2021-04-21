@@ -14,7 +14,7 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "韩府帮",
+				"navigationBarTitleText": "首页",
 				"app-plus": {
 					"scrollIndicator": "none", //隐藏滚动条
 					"bounce": "none", //关闭反弹效果
@@ -390,7 +390,7 @@
 		"backgroundColor": "#FFFFFF",
 		"list": [{
 				"pagePath": "pages/index/index",
-				"text": "韩府",
+				"text": "首页",
 				"iconPath": "/static/tabbar/index.png",
 				"selectedIconPath": "/static/tabbar/indexed.png"
 			},

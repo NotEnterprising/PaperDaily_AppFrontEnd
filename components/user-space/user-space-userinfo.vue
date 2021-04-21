@@ -2,14 +2,14 @@
 	<view class="user-space-userinfo">
 		<view class="user-space-userinfo-item">
 			<view>账号信息</view>
-			<view>昵称：{{userinfo.username}}</view>
-			<view>韩龄：{{getRegAge}}</view>
-			<view>韩友ID：{{userinfo.id}}</view>
+			<view>用户名：{{userinfo.username}}</view>
+			<view>邮箱：{{userinfo.email}}</view>
+			<view>ID：{{userinfo.id}}</view>
 		</view>
 		<view class="user-space-userinfo-item">
 			<view>个人信息</view>
-			<view>职业：{{userinfo.job}}</view>
-			<view>故乡：{{userinfo.path}}</view>
+			<view>机构：{{userinfo.institution}}</view>
+<!-- 			<view>故乡：{{userinfo.path}}</view> -->
 		</view>
 	</view>
 </template>

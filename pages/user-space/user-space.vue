@@ -19,14 +19,6 @@
 		</swiper-tab-head>
 		<view style="margin-bottom: 5upx;"></view>
 		<template v-if="tabIndex==0">
-			<!-- 主页 -->
-			<user-space-userinfo 
-				:userinfo="info"
-				:authInfo="userInfo"
-				></user-space-userinfo>
-		</template>
-
-		<template v-if="tabIndex==1">
 			<!-- 话题列表 -->
 			<view class="topic-view">
 			<block v-for="(list,index1) in titleList" :key="index1">
@@ -34,7 +26,7 @@
 			</block>	
 			</view>
 		</template>
-		<template v-if="tabIndex==2">
+		<template v-if="tabIndex==1">
 			<!-- 列表 -->
 			<view class="topic-list">
 			<block v-for="(list,listindex) in topicList" :key="listindex">
@@ -43,6 +35,15 @@
 			</view>
 			<!-- 上拉加载 -->
 		</template>
+		<template v-if="tabIndex==2">
+			<!-- 主页 -->
+			<user-space-userinfo 
+				:userinfo="info"
+				:authInfo="userInfo"
+				></user-space-userinfo>
+		</template>
+
+		
 
 		<!-- 操作菜单 -->
 		<user-space-popup :show="show" 
@@ -65,7 +66,7 @@
 	import {mapMutations, mapState} from 'vuex'
 	import topicList from "../../components/news/topic-list.vue";
 	import time from '../../common/time.js'
-	import {saveUserAccess,getUserWillinfo,getTopicListByUid,getTopicTitleByUid} from '@/api/user-space.js'
+	import {saveUserAccess,getUserInfo,getTopicListByUid,getTopicTitleByUid} from '@/api/user-space.js'
 	export default {
 		components:{
 			userSpaceHead,
@@ -83,6 +84,7 @@
 		onLoad(data) {
 			this.info.id = data.uid
 			this.initData(data.uid)
+			console.log(777)
 			if(data.uid!=this.userInfo.id){
 				saveUserAccess({
 					fromId:this.userInfo.id?this.userInfo.id:(+new Date+"").slice(5),
@@ -98,10 +100,11 @@
 					bgimg:1,
 					userpic:"",
 					username:"",
+					email:"",
+					institution:"",
 					sex:0,
 					age:0,
 					isguanzhu:0,
-					regtime:+new Date,
 					id:0,
 					job:"",
 					path:"",
@@ -115,9 +118,9 @@
 				],
 				tabIndex:0,
 				tabBars:[
-					{ name:"主页",id:"zhuye" },
-					{ name:"话题",id:"huati" },
+					{ name:"论文解读",id:"lunwenjiedu" },
 					{ name:"动态",id:"dongtai" },
+					{ name:"主页",id:"zhuye" },
 				],
 				tablist:[ {},
 					{
@@ -144,31 +147,26 @@
 		},
 		methods: {
 			async initData(id){
-				let {code,data} = await getUserWillinfo(id);
-				let topicList = await getTopicListByUid(id);
-				let topicTitleList = await getTopicTitleByUid(id);
-				
-				if(Array.isArray(topicTitleList)){
-					this.titleList = topicTitleList
-				}
-				this.topicList = topicList
-				if(code==0&&data){
-				this.spacedata[0].num = data.likeNum>=1000?(data.likeNum/1000)+"k":data.likeNum
-				this.spacedata[1].num = data.attNum
-				this.spacedata[2].num = data.fansNum
+				let data = await getUserInfo({"user_id":id});
+				// let topicList = await getTopicListByUid(id);
+				// let topicTitleList = await getTopicTitleByUid(id);
+				// if(Array.isArray(topicTitleList)){
+				// 	this.titleList = topicTitleList
+				// }
+				// this.topicList = topicList
+				if("id" in data){
+				this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+"k":data.total_like
+				this.spacedata[1].num = data.total_fan
+				this.spacedata[2].num = data.total_fan
 				let currentId = this.userInfo.id
 				this.info.currentId = currentId;
-				this.info.userpic = data.userPic;
-				this.info.username = data.userName;
-				this.info.sex = data.gender;
+				this.info.userpic = "https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png";
+				this.info.username = data.username;
+				this.info.email = data.email
+				this.info.institution=data.institution
 				this.info.isguanzhu = data.isguanzhu;
-				this.info.regtime = data.createTime;
 				this.info.id = data.id;
-				this.info.job = data.job==null ?"未知" :data.job
-				this.info.path = data.path==null?"未知":data.path
-
 				}
-				
 			},
 			userActive(){
 				this.info.isguanzhu = !this.info.isguanzhu

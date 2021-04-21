@@ -78,8 +78,8 @@
 		async mounted() {
 			this.initDat()
 			if (this.userInfo.id) {
-				this.homeinfo.userpic = this.userInfo.authorUrl
-				this.homeinfo.username = this.userInfo.userName
+				this.homeinfo.userpic = "https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png"
+				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
 				if (!this.islogin) {
 					this.initDat()
@@ -142,15 +142,12 @@
 					url: '../login/login'
 				});
 			},
-			"total_post": 0,
-			"total_like": 0,
-			"total_fan": 0,
 			async initDat() {
 				if (this.userInfo && this.userInfo.id) {
 					let userProfile = await getUserProfile()
 					this.homeinfo.total_like = userProfile.total_like
 					this.homeinfo.total_post = userProfile.total_post
-					this.homeinfo.total_fan = userProfile.total_fan
+					this.homeinfo.total_fan = userProfile.total_collect
 					this.homeinfo.email = userProfile.email
 					this.homedata[0].num = userProfile.total_post
 					this.homedata[1].num = userProfile.total_fan

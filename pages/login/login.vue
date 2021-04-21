@@ -198,7 +198,8 @@
 				
 				try {
 					uni.setStorageSync('userInfo', JSON.stringify(data.userInfo));
-					uni.setStorageSync('token', data.userInfo.access_token);
+					uni.setStorageSync('token', data.access_token);
+					uni.setStorageSync('refresh_token',data.refresh_token)
 				} catch (e) {
 				
 				}

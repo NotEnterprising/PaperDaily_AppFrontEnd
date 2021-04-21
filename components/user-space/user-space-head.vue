@@ -4,9 +4,7 @@
 		<view class="user-space-head-info u-f-ajc u-f-column">
 			<image :src="userinfo.userpic" mode="widthFix" lazy-load></image>
 			<view class="user-space-margin u-f-ac">
-				<!-- {{userinfo.username}} -->
-				<tag-sex-age :sex="userinfo.sex">
-				</tag-sex-age> 
+				{{userinfo.username}}
 			</view>
 			<view 
 				v-if="userinfo.id==userinfo.currentId"

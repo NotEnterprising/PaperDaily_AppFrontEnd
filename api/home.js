@@ -2,9 +2,8 @@ import axios from '@/config/requestConfig.js';
 import {
 	headers
 } from './common.js'
-export const  getUserProfile =async (token) => {
+export const  getUserProfile =async () => {
 	let data = await axios.get('user/profile',{},headers)
-	console.log(data)
 	return data
 }
 

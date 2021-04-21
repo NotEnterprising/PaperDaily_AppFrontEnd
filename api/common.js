@@ -11,3 +11,7 @@ export const  giveLike = async (data) => {
 export const  headers = {
 	"Authorization":'Bearer ' + uni.getStorageSync('token')
 }
+
+export const  refreshHeaders = {
+	"Authorization":'Bearer ' + uni.getStorageSync('refresh_token')
+}

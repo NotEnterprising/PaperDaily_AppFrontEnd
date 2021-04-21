@@ -1,5 +1,8 @@
 <script>
     import {mapMutations,mapActions} from 'vuex'
+	import {
+		tokenRefresh
+	} from "@/api/login.js";
 	export default {
 		async onLaunch() {
 			// 网路监听（用户目前断网，切换wifi）
@@ -21,24 +24,21 @@
 		async onShow () {
 			console.log('App Show')
 			let res ={};
-			if(uni.getStorageSync('token')){
-				res = await this.$http.get("auth/verify")
-				console.log(res)
+			if(uni.getStorageSync('refresh_token')){
+				res = await tokenRefresh()
 			}
-			if(res && res.code==10004){
+			if(res && res.code==401){
 				uni.clearStorageSync('token')
 				uni.clearStorageSync('chatList')
 				this.setChatList([])
 				this.setUserInfo({})
 			}else{
-				if(res.data&&res.data.token){
-					uni.setStorageSync('token',res.data.token)
-					this.setUserInfo(res.data.userInfo)
-					this.$store.dispatch('setSocketV',res.data.userInfo.id)
-				}
-								
+				if(res&&res.access_token){
+					uni.setStorageSync('token',res.access_token)
+					this.setUserInfo(res.userInfo)
+					//this.$store.dispatch('setSocketV',res.userInfo.id)
+				}			
 			}
-
 		},
 		onHide: function () {
 			console.log('App Hide')
