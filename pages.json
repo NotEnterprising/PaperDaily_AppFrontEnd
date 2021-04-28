@@ -92,7 +92,7 @@
 							"align": "center",
 							"backgroundColor": "#F7F7F7",
 							"borderRadius": "8upx",
-							"placeholder": "搜索韩府",
+							"placeholder": "搜索",
 							"placeholderColor": "#CCCCCC",
 							"disabled": false
 						},
@@ -169,7 +169,7 @@
 							"align": "left",
 							"backgroundColor": "#F7F7F7",
 							"borderRadius": "8upx",
-							"placeholder": "搜索韩府",
+							"placeholder": "搜索",
 							"placeholderColor": "#CCCCCC",
 							"disabled": false
 						},
@@ -268,7 +268,7 @@
 		}, {
 			"path": "pages/user-set-about/user-set-about",
 			"style": {
-				"navigationBarTitleText": "关于韩府",
+				"navigationBarTitleText": "关于PaperDaily",
 				"app-plus": {
 					"scrollIndicator": "none"
 				}
@@ -316,7 +316,7 @@
 							"align": "center",
 							"backgroundColor": "#F7F7F7",
 							"borderRadius": "8upx",
-							"placeholder": "搜索韩友",
+							"placeholder": "搜索朋友",
 							"placeholderColor": "#CCCCCC",
 							"disabled": false
 						},

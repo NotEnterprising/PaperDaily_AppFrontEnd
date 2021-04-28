@@ -1,11 +1,11 @@
 import axios from '@/config/requestConfig.js';
 import time from '../common/time.js'
 import {
-	headerForm
+	headers
 } from './common.js'
 export const getChatList = async (userInfo) => {
 	axios.setLoading(true);
-	let data = await axios.get('chat/list');
+	let data = await axios.get('chat/list',{},headers);
 	if(data&&data.length==0){
 		return []
 	}
@@ -31,7 +31,8 @@ export const getChatList = async (userInfo) => {
 					id: mItem.id,
 					isme: mItem.fromId == userInfo.id,
 					uid: mItem.fromId == userInfo.id ? mItem.toId : mItem.fromId,
-					userpic: mItem.fromId == userInfo.id ? userInfo.authorUrl : item.userpic,
+					userpic: mItem.fromId == userInfo.id ? "https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png" : item.userpic,
+					//userInfo.authorUrl
 					type: "text",
 					message: mItem.message,
 					time: time.gettime.gettime(mItem.sendTime),
@@ -58,9 +59,9 @@ export const getChatList = async (userInfo) => {
 }
 export const deleteChat = async (id) => {
 	axios.setLoading(true);
-	let result = await axios.delete('chat', {
+	let result = await axios.delete('chat/delete', {
 		cids: typeof id == "number"? [id]:[...id]
-	}, headerForm);
+	}, headers);
 	axios.setLoading(false);
 	return result
 }
@@ -68,16 +69,17 @@ export const updateChat = async (id) => {
 	axios.setLoading(true);
 	axios.put('chat/read', {
 		mids: [id]
-	}, headerForm)
+	}, headers)
 	axios.setLoading(false);
 }
 export const readChatMsg = async (mids) => {
 	axios.setLoading(true);
 	await axios.put('chat/read', {
 		mids: mids
-	}, headerForm)
+	}, headers)
 	axios.setLoading(false);
 }
+
 export const createSocket = async (uid) => {
 	let socket = await axios.websocket('POST', "msg/" + uid);
 	return socket

@@ -19,6 +19,7 @@ import {
 
 export const login = async(data) => {
   let result = await axios.post('token-auth',data)
+  console.log(result)
   return result
 }
 

@@ -49,7 +49,8 @@
 	import userList from "../../components/user-list/user-list.vue";
 	import loadMore from "../../components/common/load-more.vue";
 	import noThing from "../../components/common/no-thing.vue";
-	import {userAtt, getUserAttList, getUserFansList,getUserEachList} from '@/api/user-list.js'
+	import {getUserAttList, getUserFansList,getUserEachList} from '@/api/user-list.js'
+	import {userAtt} from '@/api/user-search.js'
 	import {mapState} from 'vuex'
 	export default {
 		components:{
@@ -156,14 +157,12 @@
 				this.tabIndex=e.detail.current;
 			},
 			async attActive(index,item){
-				let data = await userAtt({
-					fromId: this.userInfo.id,
-					toId: item.id
-				})
+				let data = await userAtt(item.id)
 				if(data&&data.code==0){
 					this.initData()
 				}
 			},
+			
 			async initData(){
 				let  attData = await getUserAttList()
 				let  eachData = await getUserEachList()
@@ -175,6 +174,7 @@
 				this.newslist[1].list = attData
 				this.newslist[2].list = fansData
 			},
+			
 			strSimilarity2Number: function (s, t) {
 			     var n = s.length, m = t.length, d = [];
 			     var i, j, s_i, t_j, cost;

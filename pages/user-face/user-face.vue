@@ -282,18 +282,41 @@
 						success: async (res)=> {
 							// 成功获得地址的地方
 							var tempFacePath = res.tempFilePath;
+							console.log("begin")
+							// const param = new FormData();
+							// param.append("file", res);
 							// 截取到新的像以后，就进行上传
-								let url  = await uploudFile(tempFacePath)
-								if(url){
-									let userInfo = this.userInfo;
-									console.log(userInfo)
-									userInfo.authorUrl = url
-									this.setUserInfo(userInfo)
-									uni.navigateBack()
-								}
-
-								
-
+							// let url  = await uploudFile({"file":res})
+							// const url = uni.uploadFile({
+							//       url : 'http://114.115.168.211:8000/api/user/icon',
+							//       filePath: tempFacePath,
+							//       name: 'file',
+							//       formData: {
+							//        'user': this.userInfo.id
+							//       },
+							//       success: function (uploadFileRes) {
+							//        console.log(uploadFileRes.data);
+							//       }
+							//      });
+							const url=uni.uploadFile({
+									url:'http://114.115.168.211:8000/api/user/icon',
+									header: {  
+									        'Content-Type': "multipart/form-data",
+									},
+									filePath:tempFacePath,
+									name:'files',
+									formData:{'user': this.userInfo.id},
+									success(res) {
+										console.log('上传成功！')
+									}
+							})
+							console.log(url)
+							if(url){
+								let userInfo = this.userInfo;
+								userInfo.userpic = url
+								this.setUserInfo(userInfo)
+								uni.navigateBack()
+							}
 						}
 					});
 				});

@@ -4,7 +4,7 @@
 		<view>
 			<view>{{item.username}}</view>
 			<view style="display: inline-block;">
-				<tag-sex-age :age="item.age" :sex="item.sex"></tag-sex-age>
+				{{item.institution}}
 			</view>
 		</view>
 		<view class="icon iconfont u-f-ajc" 

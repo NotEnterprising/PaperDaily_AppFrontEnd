@@ -1,25 +1,27 @@
 import axios from '@/config/requestConfig.js';
 
 import {
-	headerForm
+	headers
 } from './common.js'
 
 export const userAtt = async (data) => {
 	axios.setLoading(false);
-	let result = await axios.post('user/active',data)
+	console.log(data)
+	let result = await axios.post('user/'+data+"/follow",{},headers)
 	axios.setLoading(true);
 	return result
 }
-export const searchUserList = async (key) => {
-	let result = await axios.get('user/list?search=' + key)
+
+export const searchUserList = async (data) => {
+	let result = await axios.get('user/search?key='+ data,{},headers)
 	if(result&&result.length){
 		result = result.map((item)=>{
 			return {
 				id:item.id,
-				userpic:item.authorUrl,
-				username:item.userName,
-				sex:item.gender,
-				isguanzhu:item.isguanzhu
+				userpic:item.userpic,
+				username:item.username,
+				isguanzhu:item.isguanzhu,
+				institution:item.institution
 			}
 		})
 	}else{

@@ -83,8 +83,8 @@
 		},
 		onLoad(data) {
 			this.info.id = data.uid
+			console.log(data.uid)
 			this.initData(data.uid)
-			console.log(777)
 			if(data.uid!=this.userInfo.id){
 				saveUserAccess({
 					fromId:this.userInfo.id?this.userInfo.id:(+new Date+"").slice(5),

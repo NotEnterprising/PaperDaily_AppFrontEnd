@@ -193,6 +193,7 @@
 					} else {
 						this.$http.toast("用户未注册");
 					}
+					return
 				}
 					
 				

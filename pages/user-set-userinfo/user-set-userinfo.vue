@@ -10,7 +10,7 @@
 				<view class="icon iconfont icon-bianji1"></view>
 			</view>
 		</view>
-		<view class="user-set-userinfo-list u-f-ac u-f-jsb">
+		<!-- <view class="user-set-userinfo-list u-f-ac u-f-jsb">
 			<view>昵称</view>
 			<view class="u-f-ac">
 				<input type="text" v-model="username" />
@@ -33,13 +33,7 @@
 			</view>
 			</picker>
 		</view>
-<!-- 		<view class="user-set-userinfo-list u-f-ac u-f-jsb">
-			<view>职业</view>
-			<view class="u-f-ac" @tap="changeOne('qg')">
-				<view>{{qg}}</view>
-				<view class="icon iconfont icon-bianji1"></view>
-			</view>
-		</view> -->
+
 		<view class="user-set-userinfo-list u-f-ac u-f-jsb">
 			<view>职业</view>
 			<view class="u-f-ac" @tap="changeOne('job')">
@@ -53,7 +47,7 @@
 				<view>{{pickerText}}</view>
 				<view class="icon iconfont icon-bianji1"></view>
 			</view>
-		</view>
+		</view> -->
 		
 		<button class="user-set-btn" 
 		type="primary" @tap="submit">完成</button>
@@ -116,7 +110,7 @@
 			}
 		},
 		watch:{
-			'userInfo.authorUrl':function(user){
+			'userInfo.icon':function(user){
 				console.log(user)
 				this.userpic = user
 			}

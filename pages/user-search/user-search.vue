@@ -61,10 +61,7 @@
 		},
 		methods: {
 			async attActive(index,item){
-				let data = await userAtt({
-					fromId: this.userInfo.id,
-					toId: item.id
-				})
+				let data = await userAtt(item.id)
 				if(data&&data.code==0){
 					this.list[index].isguanzhu = !this.list[index].isguanzhu
 				}
@@ -74,7 +71,6 @@
 				// 请求服务器 post keyword:this.searchtext
 				let data = await searchUserList(text)
 				this.list = data
-				console.log(data)
 
 			},
 			// 上拉加载

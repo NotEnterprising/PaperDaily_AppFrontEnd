@@ -82,7 +82,7 @@
 			};
 		},
 		onShow() {
-			this.connectSocketInit();
+			//this.connectSocketInit();
 			if (this.userInfo.id) {
 				this.initData()
 				this.loadtext = ''
@@ -133,16 +133,16 @@
 			]),
 			...mapActions(['setSocketV','addChatListMessage']),
 			async initData() {
+				console.log("begin")
 				let chatList = await getChatList(this.userInfo)
+				console.log(chatList)
 				this.setChatList(chatList);
 				this.sortChatList()
 				uni.setStorageSync('chatList', JSON.stringify(this.chatList))
-
 			},
 			onClick(item, index) {
 				deleteChat(item.id)
 				this.delChatList(index)
-
 			},
 			async connectSocketInit() {
 				let uid = this.userInfo.id
