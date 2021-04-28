@@ -10,7 +10,7 @@
 		</view> -->
 		<!-- #endif -->
 		<myNavBar @signIn="signIn"></myNavBar>
-		<tui-fab bgColor="#FFE933" :width="98" :height="98" :bottom="150" :right="50" @click="publish"></tui-fab>
+		<!-- <tui-fab bgColor="#FFE933" :width="98" :height="98" :bottom="150" :right="50" @click="publish"></tui-fab> -->
 		<swiper-tab-head :tabBars="tabBars" :tabIndex="tabIndex" @tabtap="tabtap">
 		</swiper-tab-head>
 		<view class="uni-tab-bar">
@@ -134,48 +134,49 @@
 						name: "朋友圈",
 						icon: "moments",
 						color: "#80D640",
-						size: 68
-					}, {
-						name: "支付宝",
-						icon: "alipay",
-						color: "#00AAEE",
-						size: 68
-					}, {
-						name: "新浪微博",
-						icon: "sina",
-						color: "#F9C718",
-						size: 68
-					}, {
-						name: "小程序",
-						icon: "applets",
-						color: "#2BA348",
-						size: 68
-					}, {
-						name: "钉钉",
-						icon: "dingtalk",
-						color: "#2DA0F1",
-						size: 68
-					}, {
-						name: "浏览器打开",
-						icon: "explore-fill",
-						color: "#1695F7",
-						size: 68
-					}, {
-						name: "邮件",
-						icon: "mail-fill",
-						color: "#2868E5",
-						size: 68
+						size: 68,
 					}]
+					// }, {
+					// 	name: "支付宝",
+					// 	icon: "alipay",
+					// 	color: "#00AAEE",
+					// 	size: 68
+					// }, {
+					// 	name: "新浪微博",
+					// 	icon: "sina",
+					// 	color: "#F9C718",
+					// 	size: 68
+					// }, {
+					// 	name: "小程序",
+					// 	icon: "applets",
+					// 	color: "#2BA348",
+					// 	size: 68
+					// }, {
+					// 	name: "钉钉",
+					// 	icon: "dingtalk",
+					// 	color: "#2DA0F1",
+					// 	size: 68
+					// }, {
+					// 	name: "浏览器打开",
+					// 	icon: "explore-fill",
+					// 	color: "#1695F7",
+					// 	size: 68
+					// }, {
+					// 	name: "邮件",
+					// 	icon: "mail-fill",
+					// 	color: "#2868E5",
+					// 	size: 68
+					// }]
 				}, {
 					operate: [{
-						name: "投诉",
-						icon: "warning",
-						size: 56
-					}, {
-						name: "复制链接",
-						icon: "link",
-						size: 56
-					}, {
+					// 	name: "投诉",
+					// 	icon: "warning",
+					// 	size: 56
+					// }, {
+					// 	name: "复制链接",
+					// 	icon: "link",
+					// 	size: 56
+					// }, {
 						name: "刷新",
 						icon: "refresh",
 						size: 56
@@ -191,51 +192,51 @@
 						page: 1
 					},
 					{
-						name: "韩府",
+						name: "热榜",
 						id: "hanfu",
 						page: 1
 					},
-					{
-						name: "娱乐",
-						id: "yule",
-						page: 1
-					},
-					{
-						name: "二手",
-						id: "ershou",
-						page: 1
-					},
-					{
-						name: "周边",
-						id: "zhoubian",
-						page: 1
-					},
+					// {
+					// 	name: "娱乐",
+					// 	id: "yule",
+					// 	page: 1
+					// },
+					// {
+					// 	name: "二手",
+					// 	id: "ershou",
+					// 	page: 1
+					// },
+					// {
+					// 	name: "周边",
+					// 	id: "zhoubian",
+					// 	page: 1
+					// },
 				],
 				newslist: [{
 						loadtext: "上拉加载更多",
-						id: "tuijian",
+						id: "recommend",
 						list: []
 					},
 					{
 						loadtext: "上拉加载更多",
-						id: "hanfu",
+						id: "hotList",
 						list: []
 					},
-					{
-						loadtext: "上拉加载更多",
-						id: "yule",
-						list: []
-					},
-					{
-						loadtext: "上拉加载更多",
-						id: "ershou",
-						list: []
-					},
-					{
-						loadtext: "上拉加载更多",
-						id: "zhoubian",
-						list: []
-					}
+					// {
+					// 	loadtext: "上拉加载更多",
+					// 	id: "yule",
+					// 	list: []
+					// },
+					// {
+					// 	loadtext: "上拉加载更多",
+					// 	id: "ershou",
+					// 	list: []
+					// },
+					// {
+					// 	loadtext: "上拉加载更多",
+					// 	id: "zhoubian",
+					// 	list: []
+					// }
 				],
 
 
@@ -280,25 +281,21 @@
 		},
 		methods: {
 			async requestData(GoPage, Gotype) {
-				let currentPage = GoPage || this.tabBars[this.tabIndex].page;
-				let type = Gotype || this.tabBars[this.tabIndex].id;
-				let data;
+				// let currentPage = GoPage || this.tabBars[this.tabIndex].page;
+				// let type = Gotype || this.tabBars[this.tabIndex].id;
+				let items;
 				try {
-					data = await getTopicList(currentPage, type)
+					items = await getTopicList()
 				} catch (e) {
 					console.log(e)
 					return
 				}
-				let {
-					page,
-					items
-				} = data
 				if (items && items.length === 0) {
 					this.tabBars[this.tabIndex].page = page
 					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
 					return
 				}
-				this.tabBars[this.tabIndex].page = page
+				// this.tabBars[this.tabIndex].page = page
 				this.newslist[this.tabIndex].list = this.newslist[this.tabIndex].list.concat(items)
 				if (items && items.length < 5) {
 					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
@@ -349,7 +346,6 @@
 				// this.offset = offset < 0 ? 0 : offset;
 				// 获取数据
 				this.requestData(this.tabBars[this.tabIndex].page + 1)
-
 
 			},
 			handleScroll(ev) {

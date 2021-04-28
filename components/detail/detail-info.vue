@@ -1,13 +1,16 @@
 <template>
 	<view class="common-list u-f animated fadeIn fast">
 		<view class="common-list-r">
+			<view class="topic-title">
+				<text style="font-weight: bold;font-size:x-large;">{{item.title}}</text>
+			</view>
 			<view>
 				<view class="u-f-ac u-f-jsb">
 					<view class="common-list-l" @tap="goToUserInfo(item)">
 						<image :src="item.userpic" class="com-img" lazy-load></image>
 						<view class="u-f-ac dre">
 							<text class="author-name">{{item.username}} </text>
-							<tag-sex-age :ugender="item.ugender" :age="item.age"></tag-sex-age>
+							<!-- <tag-sex-age :ugender="item.ugender" :age="item.age"></tag-sex-age> -->
 						</view>
 					</view>
 			<template v-if="!isme">
@@ -19,9 +22,9 @@
 				</view>
 				<view class="common-list-r-time">{{createDate}}</view>
 			</view>
-			<view>{{item.title}}</view>
-			<view class="u-f-ajc" :class="[ list =='list3'?'list3': 'list4']">
-				<!-- 图片 -->
+			<view>{{item.content}}</view>
+<!-- 			<view class="u-f-ajc" :class="[ list =='list3'?'list3': 'list4']">
+
 				<view  v-if="item.urlType=='img'" :class="item.images.length>1?'img-n':'img-1'">
 					<block v-for="(pic,index) in item.images" :key="index">
 						<image :src="pic" 
@@ -30,7 +33,7 @@
 						
 					</block>
 				</view>
-				<!-- 视频 -->
+
 				<template v-if="item.urlType=='mp4'">
 					<video :src="item.images[0]" 
 					style="width: 100%;"
@@ -41,7 +44,8 @@
 					</view>
 				</template>
 
-			</view>
+			</view> -->
+			
 			<view class="u-f-ac u-f-jsb">
 				<view>{{item.path}}</view>
 				<view class="u-f-ac">
@@ -51,7 +55,7 @@
 					</view>
 
 				<view class="active-comm" @tap="giveLike">
-					<tui-icon :name="infoNum.index==1?'agree-fill': 'agree'" :color="infoNum.index==1?'#FFE933': ''" :size="size" unit="upx"></tui-icon>
+					<tui-icon :name="infoNum.agree?'agree-fill': 'agree'" :color="infoNum.index==1?'#FFE933': ''" :size="size" unit="upx"></tui-icon>
 					<text class="active-text">
 						{{infoNum.likeNum==0?"点赞": infoNum.likeNum}}
 					</text>
@@ -70,6 +74,7 @@
 <script>
 	import time from "../../common/time.js";
 	import tagSexAge from "../common/tag-sex-age.vue"
+	import { headers } from "@/api/common.js"
 	export default {
 		components:{
 			tagSexAge
@@ -119,7 +124,6 @@
 					tid:this.item.id,
 					tuid: this.item.uid,
 					cid:this.item.cid
-					
 				}
 				
 			}
@@ -128,21 +132,16 @@
 			goToUserInfo(item){
 				this.$emit("goToUserInfo",item)
 			},
-			showComInput(){
-				
-			},
+
 			onCollect(){
 				if(!this.userInfo.id){
 					this.$http.href('../../pages/login/login')
 					return 
 				}
-				console.log(this.topicActive)
-				this.$http.post('topic/collect',{
-					...this.topicActive,
-					title:this.item.title,
-					username:this.item.username,
-					userpic:this.item.userpic
-				})
+				this.$http.post('Interpretation/collect',{
+					id:this.item.id,
+					uid:this.userInfo.id,
+				},headers)
 				if(this.collect){
 					this.$http.toast("取消收藏!")
 				}else{
@@ -178,10 +177,6 @@
 					this.$http.href('../../pages/login/login')
 					return 
 				}
-				if(this.item.uid==this.userInfo.id){
-					this.$http.toast("自己不用评论了趴！")
-					return
-				}
 				
 				this.$emit("comSubimt",this.item)
 			},
@@ -190,21 +185,22 @@
 					this.$http.href('../../pages/login/login')
 					return 
 				}
-				if(this.infoNum.index){
-					console.log(88)
+				if(this.infoNum.agree){
 					this.infoNum.likeNum--
 					await this.$emit("likeOrTread",{
-							...this.topicActive,
-							tactive: 0
+							uid: this.userInfo.id,
+							id: this.item.id,
+							like: false
 						})
 				}else{
 					this.infoNum.likeNum++
 					await this.$emit("likeOrTread",{
-							...this.topicActive,
-							tactive: 1
+							uid: this.userInfo.id,
+							id: this.item.id,
+							like: true
 						})
 				}
-				this.infoNum.index = !this.infoNum.index
+				this.infoNum.agree = !this.infoNum.agree
 			},
 			imgdetail(index){
 				uni.previewImage({

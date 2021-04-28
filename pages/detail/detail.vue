@@ -17,7 +17,7 @@
 		<view style="height: 120upx;"></view>
 
 		<!-- 输入框 -->
-		<user-chat-bottom @submit="submit"></user-chat-bottom>
+		<!-- <user-chat-bottom @submit="submit"></user-chat-bottom> -->
 		<t-rt-popup :itemList="itemList" ref="rtBubble" @click="itemClick"></t-rt-popup>
 		<!-- 分享 -->
 		<more-share :show="shareshow" @togle="togle"></more-share>
@@ -114,17 +114,17 @@
 				this.detail = detail
 				this.infoNum = detail.infoNum
 				this.comment.count = detail.commentNum
-				if (this.userInfo.id) {
-					let opt = {
-						cid: detail.cid,
-						tid: detail.id,
-						uid: this.userInfo.id,
-						title: detail.title,
-						username: detail.username,
-						userpic: detail.userpic
-					}
-					pushHistory(opt)
-				}
+				// if (this.userInfo.id) {
+				// 	let opt = {
+				// 		cid: detail.cid,
+				// 		tid: detail.id,
+				// 		uid: this.userInfo.id,
+				// 		title: detail.title,
+				// 		username: detail.username,
+				// 		userpic: detail.userpic
+				// 	}
+				// 	pushHistory(opt)//push用户浏览历史
+				// }
 				this.getcomment();
 				this.$nextTick(()=>{
 					this.detail = detail
@@ -182,39 +182,28 @@
 				if (text == "") {
 					return
 				}
-				await addComment({
-					uid: this.userInfo.id,
-					parentId: this.currentComm.id,
-					tid: this.currentComm.tid,
-					content: text
-				})
+				if(this.currentComm.title){
+					await addComment({
+						uid: this.userInfo.id,
+						parentId: null,
+						id: this.currentComm.id,
+						content: text
+					})
+				}else{
+					await addComment({
+						uid: this.userInfo.id,
+						parentId: this.currentComm.id,
+						id: this.currentComm.tid,
+						content: text
+					})
+				}
 				await this.getcomment()
 				this.maskState = !this.maskState
 			},
 			toggleState() {
 				this.maskState = !this.maskState
 			},
-			async submit(data) {
-				if (!this.userInfo.id) {
-					this.$http.toast("你还未登录！")
-					return
-				}
-				if(this.detail.uid==this.userInfo.id){
-					this.$http.toast("自己就不用评论了趴！")
-					return
-				}
-				if (data == '') {
-					this.$http.toast("评论不能为空！")
-					return;
-				}
-				await addComment({
-					uid: this.userInfo.id,
-					parentId: 0,
-					tid: this.detail.id,
-					content: data
-				})
-				this.getcomment()
-			},
+			
 			goToUserInfo(item) {
 				
 				uni.navigateTo({
@@ -223,7 +212,7 @@
 			},
 			async likeOrTread(data) {
 				giveLike(data)
-				if(data.tactive==1){
+				if(data.like){
 					this.$http.toast("点赞成功!")
 				}else{
 					this.$http.toast("你已取消点赞!")
@@ -232,10 +221,10 @@
 			},
 			// 获取评论
 			async getcomment() {
-				let arr = await getCommentList(this.detail.id)
-				this.comment.list = arr.items;
-				this.comment.count = arr.total;
-				this.detail.commentNum = arr.total
+				let items = await getCommentList(this.detail.id)
+				this.comment.list = items;
+				this.comment.count = items.length;
+				this.detail.commentNum = items.length
 			},
 
 		}

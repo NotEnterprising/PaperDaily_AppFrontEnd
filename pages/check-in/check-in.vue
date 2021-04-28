@@ -30,7 +30,7 @@
 				<view v-else>
 					<!-- 已签到日期 -->
 					<view v-if="item.isSign == true" class='cell greenColor sel '>
-						<!-- <tui-icon name="circle-selected" color="#ffe933" :size="72"></tui-icon> -->
+						<!-- <tui-icon name="circle-selected" color="#FFE933" :size="72"></tui-icon> -->
 						<text class="sel-text">√</text>
 					</view>
 					<!-- 漏签 -->
@@ -366,7 +366,7 @@
 	}
 	.sel-text{
 		font-size: 48upx;
-		color: #ffe933;
+		color: #FFE933;
 		font-weight: 700;
 	}
 	.warpTotalSign{
@@ -379,7 +379,7 @@
 		font-size: 100upx;
 		font-weight: 700;
 		text-align: center;
-		color: #ffe933;
+		color: #FFE933;
 	}
 	.location{
 		display: flex;

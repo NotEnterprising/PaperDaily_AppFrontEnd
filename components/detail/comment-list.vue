@@ -14,6 +14,7 @@
 			</view>
 		</view>
 		<template v-if="item.children&&item.children.length>0">
+		
 		<view v-for="items in item.children" :key="items.id">
 			<view class="uni-comment-list u-comment-list-child" >
 				<view class="uni-comment-face">
@@ -24,14 +25,13 @@
 						<text v-if="userInfo.id==items.uid" @tap="deleteCom(items)">删除</text>
 					</view>
 					<!-- @tap="comment(items)" -->
-					<view class="uni-comment-content" >{{items.content}}</view>
+					<view class="uni-comment-content" @tap="comment(item)">{{items.content}}</view>
 					<view class="uni-comment-date">
 						<view>{{time}}</view>
 					</view>
 				</view>
 			</view>
 		</view>
-
 		</template>
 		
 	</view>
@@ -52,16 +52,10 @@
 					this.$http.href('../../pages/login/login')
 					return 
 				}
-				if(this.item.uid==this.userInfo.id){
-					this.$http.toast("自己就不用评论了趴！")
-					return
-				}
-
 				this.$emit("comSubimt",item)
 			},
 			deleteCom(item){
-				this.$emit("comDelete",item)
-				
+				this.$emit("comDelete",item)				
 			}
 		},
 		computed:{

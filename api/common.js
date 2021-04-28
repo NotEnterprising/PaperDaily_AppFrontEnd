@@ -4,7 +4,7 @@ import axios from '@/config/requestConfig.js';
 //可以new多个request来支持多个域名请求
 //点赞功能
 export const  giveLike = async (data) => {
-	let result = await axios.post('topic/active',data);
+	let result = await axios.post('Interpretation/like',data,headers);
 	return result
 }
 

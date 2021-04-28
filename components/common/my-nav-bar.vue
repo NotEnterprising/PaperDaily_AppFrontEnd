@@ -1,17 +1,17 @@
 <template>
 		<tui-navigation-bar backgroundColor="255,255,255" :isFixed="false" :isOpcity="false">
 			<view class="tui-content-box">
-				<view class="tui-avatar-box" @tap="skipToSearch(1)">
+				<!-- <view class="tui-avatar-box" @tap="skipToSearch(1)">
 					<tui-icon name="signin" color="#FFE933" :size="64"></tui-icon>
-				</view>
+				</view> -->
 				<view class="tui-search-box" @tap="skipToSearch(2)">
 					<tui-icon name="search-2" :size="36" color="#bfbfbf"></tui-icon>
 					<view class="tui-search-text">请输入搜索关键字</view>
 				</view>
-				<view class="tui-notice-box" @tap="skipToSearch(3)">
-					<tui-icon name="add" color="#FFE933" :size="64"></tui-icon>
+				<!-- <view class="tui-notice-box" @tap="skipToSearch(3)">
+					<tui-icon name="add" color="#FFE933" :size="64"></tui-icon> -->
 					<!-- <tui-badge type="danger" absolute :scaleRatio="0.8" top="16rpx">1</tui-badge> -->
-				</view>
+				<!-- </view> -->
 			</view>
 		</tui-navigation-bar>
 </template>

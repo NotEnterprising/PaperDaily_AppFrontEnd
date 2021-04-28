@@ -1,19 +1,22 @@
 <template>
 	<view class="container"> 
 		<view class="item-list">
+			<view class="topic-title" @tap="opendetail">
+				<text style="font-weight: bold;font-size:larger;">{{item.title}}</text>
+			</view>
 			<view class="author-wrap" @tap="opendetail">
 				<image class="anthor-pic" :src="item.userpic" lazy-load mode="aspectFill"></image>
 				<text class="author-name">{{item.username}}</text>
+			</view> 
+			<view class="topic-text" @tap="opendetail">
+				{{item.content}}
 			</view>
 			<view style="color: #007AFF;" @tap="opendetail">
-				<template v-for="title in item.lable">
-					#{{title.title}}# 
+				<template v-for="title in item.label">
+					#{{title}}#
 				</template>
-			</view>  
-			<view class="topic-text" @tap="opendetail">
-				{{item.title}}
-			</view>
-			<template v-if="item.urlType=='img'">
+			</view> 
+		<!-- 	<template v-if="item.urlType=='img'">
 				<view v-if="item.images&&item.images.length>2" class="image-view-n">
 						<block v-for="(items,index1) in item.images" :key="index1">
 							<image :src="items"
@@ -30,7 +33,7 @@
 					<image :src="item.images[0]"
 					lazy-load mode="aspectFit" @tap="imgdetail(0)"></image>
 				</view>
-		</template>
+			</template> -->
 
 			
 			<view class="topic-active">
@@ -43,7 +46,7 @@
 					<text class="active-text">{{item.commentNum==0?"评论": item.commentNum}}</text>
 				</view>
 				<view class="active-comm" @tap="giveLike">
-					<tui-icon :name="infoNum.index==1?'agree-fill': 'agree'" :color="infoNum.index==1?'#FFE933': ''" :size="size" unit="upx"></tui-icon>
+					<tui-icon :name="infoNum.agree?'agree-fill': 'agree'" :color="infoNum.index==1?'#FFE933': ''" :size="size" unit="upx"></tui-icon>
 					<text class="active-text">
 						{{infoNum.likeNum==0?"点赞": infoNum.likeNum}}
 					</text>
@@ -89,21 +92,23 @@
 					this.$http.href("../../pages/login/login")
 					return
 				}
-				if(this.infoNum.index){
+				if(this.infoNum.agree){
 					this.infoNum.likeNum--
 					await this.$emit("likeOrTread",{
-							...this.topicActive,
-							tactive: 0
+							uid:this.userInfo.id,
+							id:this.item.id,
+							like: false
 						})
 					
 				}else{
 					this.infoNum.likeNum++
 					await this.$emit("likeOrTread",{
-							...this.topicActive,
-							tactive: 1
+							uid:this.userInfo.id,
+							id:this.item.id,
+							like: true
 						})
 				}
-				this.infoNum.index = !this.infoNum.index
+				this.infoNum.agree = !this.infoNum.agree
 			},
 			opendetail(){
 				this.$emit("opendDetail",this.item)

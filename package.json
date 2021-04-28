@@ -1,5 +1,5 @@
 {
-  "name": "ssk-hfb",
+  "name": "paperDaily",
   "version": "1.0.0",
   "description": "| 简体中文 |",
   "main": "main.js",
@@ -10,13 +10,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/CNLHB/ssk-hfb.git"
+    "url": "git+https://github.com/NotEnterprising/PaperDaily_AppFrontEnd.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/CNLHB/ssk-hfb/issues"
+    "url": "https://github.com/NotEnterprising/PaperDaily_AppFrontEnd.git"
   },
-  "homepage": "https://github.com/CNLHB/ssk-hfb#readme"
+  "homepage": "https://github.com/NotEnterprising/PaperDaily_AppFrontEnd#readme"
 }
