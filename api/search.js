@@ -1,22 +1,19 @@
 import axios from '@/config/requestConfig.js';
 import {
-	headerForm
+	headers,
+	picUrl
 } from './common.js'
 
 
 
-export const searchTopicList = async (page=1,search='') => {
-	let result = await axios.get(`/topic/page?page=${page}&rows=50&search=${search}`)
-	if(result&&result.items.length){
-			 result.items.forEach((item)=>{
-			 	if(item.images!=null&&item.images!=''){
-			 		item.images = item.images.split(",");
-			 	}else{
-			 		item.images =[]
-			 	}
-			 	
-			 })
+export const searchTopicList = async (page=1,key='',author='') => {
+	let result = await axios.get('Interpretation/page/'+page+'?author='+author+'&keywords='+key,{},headers)
+	// console.log(result)
+	if(result&&result.length){
+		result.forEach((item)=>{
+			item.userpic=picUrl+item.userpic
+		})
 	}
-	
+	console.log(result)
 	return result
 }

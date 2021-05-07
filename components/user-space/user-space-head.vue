@@ -25,6 +25,7 @@
 
 <script>
 	import tagSexAge from "../common/tag-sex-age.vue";
+	import { headers } from "@/api/common.js"
 	export default {
 		components:{
 			tagSexAge
@@ -59,17 +60,21 @@
 						icon:'none'
 					})
 				}
-				let data =await this.$http.post('user/active',{
-					fromId:this.userinfo.currentId,
-					toId: this.userinfo.id
-				})
-				if(data.code==0){
-					await this.$emit("userActive")
+				let data;
+				if(this.userinfo.isguanzhu){
+					data=this.$http.post('user/'+this.userinfo.id+'/unfollow',{},headers)
+					this.$http.toast("取消关注!")
 				}else{
+					data=this.$http.post('user/'+this.userinfo.id+'/follow',{},headers)
+					this.$http.toast("关注成功!")			
+				}
+				if(data.code==0){
 					uni.showToast({
 						title:"操作失败!",
 						icon:'none'
 					})
+				}else{
+					await this.$emit("userActive")
 				}
 			},
 			goToInfo(){

@@ -67,6 +67,9 @@
 	import topicList from "../../components/news/topic-list.vue";
 	import time from '../../common/time.js'
 	import {saveUserAccess,getUserInfo,getTopicListByUid,getTopicTitleByUid} from '@/api/user-space.js'
+	import {
+		picUrl
+	} from "@/api/common.js";
 	export default {
 		components:{
 			userSpaceHead,
@@ -82,8 +85,9 @@
 			...mapState(['userInfo'])
 		},
 		onLoad(data) {
+			console.log("test here")
+			console.log(data)
 			this.info.id = data.uid
-			console.log(data.uid)
 			this.initData(data.uid)
 			if(data.uid!=this.userInfo.id){
 				saveUserAccess({
@@ -154,17 +158,18 @@
 				// 	this.titleList = topicTitleList
 				// }
 				// this.topicList = topicList
+
 				if("id" in data){
 				this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+"k":data.total_like
 				this.spacedata[1].num = data.total_fan
 				this.spacedata[2].num = data.total_fan
 				let currentId = this.userInfo.id
 				this.info.currentId = currentId;
-				this.info.userpic = "https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png";
+				this.info.userpic = picUrl+data.userpic;
 				this.info.username = data.username;
 				this.info.email = data.email
 				this.info.institution=data.institution
-				this.info.isguanzhu = data.isguanzhu;
+				this.info.isguanzhu = data.is_following;
 				this.info.id = data.id;
 				}
 			},

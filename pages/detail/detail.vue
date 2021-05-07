@@ -2,7 +2,7 @@
 	<view class="detail">
 		<detail-info @goToUserInfo="goToUserInfo"
 			@likeOrTread="likeOrTread"
-		   :userInfo="userInfo" @comSubimt="comSubimt" :infoNum="infoNum" :item="detail"></detail-info>
+		   :userInfo="userInfo" @comSubimt="comSubimt" :item="detail"></detail-info>
 
 		<view class="u-comment-title" :maskState="maskState">最新评论 {{comment.count}}</view>
 		<view class="uni-comment u-comment">
@@ -112,7 +112,6 @@
 				});
 				let detail = await getTopicDetail(id)
 				this.detail = detail
-				this.infoNum = detail.infoNum
 				this.comment.count = detail.commentNum
 				// if (this.userInfo.id) {
 				// 	let opt = {

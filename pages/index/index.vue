@@ -372,7 +372,7 @@
 			},
 			async likeOrTread(data) {
 				giveLike(data)
-				if(data.tactive==1){
+				if(data.like){
 					this.$http.toast("点赞成功!")
 				}else{
 					this.$http.toast("你已取消点赞!")

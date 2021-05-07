@@ -82,15 +82,15 @@
 					return
 				}
 				try{
-					data = await searchTopicList(this.page+1,this.searchtext)
-					if(data.items.length===0){
+					data = await searchTopicList(this.page+1,this.searchtext,'')
+					if(data.length===0){
 						this.issearch=true;
 						this.list = []
 						this.loadtext="没有更多数据了";
 						return 
 					}else{
-						this.page = data.page
-						this.list = data.items
+						this.page = this.page+1
+						this.list = data
 					}
 				}catch(e){
 					console.log(e)

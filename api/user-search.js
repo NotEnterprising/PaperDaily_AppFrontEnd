@@ -1,7 +1,8 @@
 import axios from '@/config/requestConfig.js';
 
 import {
-	headers
+	headers,
+	picUrl
 } from './common.js'
 
 export const userAtt = async (data) => {
@@ -13,14 +14,16 @@ export const userAtt = async (data) => {
 }
 
 export const searchUserList = async (data) => {
-	let result = await axios.get('user/search?key='+ data,{},headers)
+	let result = await axios.get('user/search/roll?key='+ data,{},headers)
+	console.log("begin:")
+	console.log(result)
 	if(result&&result.length){
 		result = result.map((item)=>{
 			return {
 				id:item.id,
-				userpic:item.userpic,
+				userpic:picUrl+item.userpic,
 				username:item.username,
-				isguanzhu:item.isguanzhu,
+				isguanzhu:item.is_following,
 				institution:item.institution
 			}
 		})

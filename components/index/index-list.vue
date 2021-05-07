@@ -6,14 +6,14 @@
 			</view>
 			<view class="author-wrap" @tap="opendetail">
 				<image class="anthor-pic" :src="item.userpic" lazy-load mode="aspectFill"></image>
-				<text class="author-name">{{item.username}}</text>
+				<text class="author-name">{{item.created_by.username}}</text>
 			</view> 
-			<view class="topic-text" @tap="opendetail">
-				{{item.content}}
+			<view span="7" class="container1" @tap="opendetail">
+			    <editor v-html="item.content" read-only=true></editor>
 			</view>
 			<view style="color: #007AFF;" @tap="opendetail">
-				<template v-for="title in item.label">
-					#{{title}}#
+				<template v-for="tag in item.tags">
+					#{{tag.name}}#
 				</template>
 			</view> 
 		<!-- 	<template v-if="item.urlType=='img'">
@@ -39,16 +39,16 @@
 			<view class="topic-active">
 				<view class="active-comm" @tap="share">
 					<tui-icon name="share" :size="size" unit="upx"></tui-icon>
-					<text class="active-text">分享</text>
+					<text class="active-text">转发</text>
 				</view>
 				<view class="active-comm" @tap="opendetail">
 					<tui-icon name="community" :size="size" unit="upx"></tui-icon>
 					<text class="active-text">{{item.commentNum==0?"评论": item.commentNum}}</text>
 				</view>
 				<view class="active-comm" @tap="giveLike">
-					<tui-icon :name="infoNum.agree?'agree-fill': 'agree'" :color="infoNum.index==1?'#FFE933': ''" :size="size" unit="upx"></tui-icon>
+					<tui-icon :name="item.is_like?'agree-fill': 'agree'" :color="item.is_like?'#FFE933': ''" :size="size" unit="upx"></tui-icon>
 					<text class="active-text">
-						{{infoNum.likeNum==0?"点赞": infoNum.likeNum}}
+						{{item.like_num==0?"点赞": item.like_num}}
 					</text>
 				</view>
 			</view>
@@ -62,6 +62,9 @@
 
 <script>
 	import uniFav from '@/components/uni-fav/uni-fav.vue'
+	import {
+		picUrl
+	} from "@/api/common.js";
 	export default {
 		components:{
 			uniFav
@@ -75,7 +78,6 @@
 			return {
 				isguanzhu: this.item.isguanzhu,
 				collect: this.item.collect,
-				infoNum:this.item.infoNum,
 				size: 48,
 				topicActive:{
 					uid:this.userInfo.id,
@@ -92,23 +94,14 @@
 					this.$http.href("../../pages/login/login")
 					return
 				}
-				if(this.infoNum.agree){
-					this.infoNum.likeNum--
-					await this.$emit("likeOrTread",{
-							uid:this.userInfo.id,
-							id:this.item.id,
-							like: false
-						})
-					
+				if(this.item.is_like){
+					this.item.like_num--
+					await this.$emit("likeOrTread",this.item.id)
 				}else{
-					this.infoNum.likeNum++
-					await this.$emit("likeOrTread",{
-							uid:this.userInfo.id,
-							id:this.item.id,
-							like: true
-						})
+					this.item.like_num++
+					await this.$emit("likeOrTread",this.item.id)
 				}
-				this.infoNum.agree = !this.infoNum.agree
+				this.item.is_like = !this.item.is_like
 			},
 			opendetail(){
 				this.$emit("opendDetail",this.item)
@@ -210,4 +203,13 @@
 	justify-content: flex-start;
 }
 
+.container1 {
+        padding: 10px;
+}
+
+#editor {
+        width: 100%;
+        height: 300px;
+        background-color: #CCCCCC;
+}
 </style>

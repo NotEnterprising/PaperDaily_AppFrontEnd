@@ -9,8 +9,8 @@ export const saveUserAccess = async (data) => {
 }
 
 export const getUserInfo = async (data) => {
-	console.log(headers)
 	let result = await axios.get('user/profile',data,headers);
+	console.log(result)
 	return result
 }
 

@@ -1,20 +1,22 @@
 import axios from '@/config/requestConfig.js';
 
 import {
-	headers
+	headers,
+	picUrl
 } from './common.js'
 
-export const getUserAttList = async () => {
+export const getUserAttList = async (data) => {
 	let result = []
+	console.log(data)
 	axios.setLoading(false)
-	let attData = await axios.get("user/follower/list",{},headers)
+	let attData = await axios.get("follower/roll/"+data,{},headers)
 	axios.setLoading(true)
 	
 	if(attData&&attData.length){
 			result = attData.map((item)=>{
 				return	{
 						id:item.id,
-						userpic:item.userpic,
+						userpic:picUrl+item.userpic,
 						username:item.username,
 						isguanzhu:true
 				}
@@ -24,10 +26,10 @@ export const getUserAttList = async () => {
 	return result
 }
 
-export const getUserFansList = async (eachData) => {
+export const getUserFansList = async (uid,eachData) => {
 	let result = []
 	axios.setLoading(false)
-	let fansData = await axios.get("user/fan/list",{},headers)
+	let fansData = await axios.get("fan/roll/"+uid,{},headers)
 	axios.setLoading(true)
 	
 	if(fansData&&fansData.length){
@@ -40,25 +42,24 @@ export const getUserFansList = async (eachData) => {
 			}
 			return	{
 					id:item.id,
-					userpic:item.userpic,
+					userpic:picUrl+item.userpic,
 					username:item.username,
-					isguanzhu:isguanzhu
+					isguanzhu:item.isguanzhu
 			}
 		})
 	}
-	console.log(result)
 	return result
 }
-export const getUserEachList = async () => {
+export const getUserEachList = async (uid) => {
 	let result = []
 	axios.setLoading(false)
-	let eachData = await axios.get("user/each/list",{},headers)
+	let eachData = await axios.get("friend/roll/"+uid,{},headers)
 	axios.setLoading(true)
 	if(eachData&&eachData.length){
 		result = eachData.map((item)=>{
 			return	{
 					id:item.id,
-					userpic:item.userpic,
+					userpic:picUrl+item.userpic,
 					username:item.username,
 					isguanzhu:true
 			}

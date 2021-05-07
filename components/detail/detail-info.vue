@@ -9,7 +9,7 @@
 					<view class="common-list-l" @tap="goToUserInfo(item)">
 						<image :src="item.userpic" class="com-img" lazy-load></image>
 						<view class="u-f-ac dre">
-							<text class="author-name">{{item.username}} </text>
+							<text class="author-name">{{item.created_by.username}} </text>
 							<!-- <tag-sex-age :ugender="item.ugender" :age="item.age"></tag-sex-age> -->
 						</view>
 					</view>
@@ -22,42 +22,23 @@
 				</view>
 				<view class="common-list-r-time">{{createDate}}</view>
 			</view>
-			<view>{{item.content}}</view>
-<!-- 			<view class="u-f-ajc" :class="[ list =='list3'?'list3': 'list4']">
+			<view span="7" class="container1" @tap="opendetail">
+			    <editor v-html="item.content" read-only=true></editor>
+			</view>
 
-				<view  v-if="item.urlType=='img'" :class="item.images.length>1?'img-n':'img-1'">
-					<block v-for="(pic,index) in item.images" :key="index">
-						<image :src="pic" 
-						lazy-load 
-						@tap="imgdetail(index)"></image>
-						
-					</block>
-				</view>
-
-				<template v-if="item.urlType=='mp4'">
-					<video :src="item.images[0]" 
-					style="width: 100%;"
-					controls 
-					></video>
-					<view class="index-list-playinfo">
-						{{item.playnum}}次播放
-					</view>
-				</template>
-
-			</view> -->
 			
 			<view class="u-f-ac u-f-jsb">
 				<view>{{item.path}}</view>
 				<view class="u-f-ac">
 					<view class="active-comm" @tap="onCollect">
-						<tui-icon :name="collect?'star-fill':'star'" :color="collect?'#FFE933':''"  :size="size" unit="upx"></tui-icon>
-						<text class="active-text">{{collect?"取消收藏": "收藏"}}</text>
+						<tui-icon :name="item.is_favor?'star-fill':'star'" :color="item.is_favor?'#FFE933':''"  :size="size" unit="upx"></tui-icon>
+						<text class="active-text">{{item.is_favor?"取消收藏": "收藏"}}</text>
 					</view>
 
 				<view class="active-comm" @tap="giveLike">
-					<tui-icon :name="infoNum.agree?'agree-fill': 'agree'" :color="infoNum.index==1?'#FFE933': ''" :size="size" unit="upx"></tui-icon>
+					<tui-icon :name="item.is_like?'agree-fill': 'agree'" :color="item.is_like?'#FFE933': ''" :size="size" unit="upx"></tui-icon>
 					<text class="active-text">
-						{{infoNum.likeNum==0?"点赞": infoNum.likeNum}}
+						{{item.like_num==0?"点赞": item.like_num}}
 					</text>
 				</view>
 				<view class="active-comm" @tap="showComInput">
@@ -104,12 +85,11 @@
 		},
 		computed:{
 			createDate(){
-
-				let data =this.item.createTime? new Date(this.item.createTime).getTime():+new Date;
+				let data =this.item.created_at? new Date(this.item.created_at).getTime():+new Date;
 				return time.gettime.sumAge(data)
 			},
 			isme(){
-				return 	this.userInfo.id==this.item.uid
+				return 	this.userInfo.id==this.item.created_by.id
 			}
 		},
 		mounted(){
@@ -155,17 +135,11 @@
 					return 
 				}
 				if(this.isguanzhu){
-					this.$http.delete('/user/active',{
-						fromId:this.userInfo.id,
-						toId:this.item.uid
-					})
+					this.$http.post('user/'+this.userinfo.id+'/unfollow',{},headers)
 					this.isguanzhu=false;
 						this.$http.toast("取消关注!")
 				}else{
-					this.$http.post('/user/active',{
-						fromId:this.userInfo.id,
-						toId:this.item.uid
-					})
+					this.$http.post('user/'+this.userinfo.id+'/follow',{},headers)
 					this.isguanzhu=true;
 					this.$http.toast("关注成功!")
 
@@ -185,22 +159,15 @@
 					this.$http.href('../../pages/login/login')
 					return 
 				}
-				if(this.infoNum.agree){
-					this.infoNum.likeNum--
-					await this.$emit("likeOrTread",{
-							uid: this.userInfo.id,
-							id: this.item.id,
-							like: false
-						})
+				if(this.item.is_like){
+					this.item.like_num--
+					await this.$emit("likeOrTread",this.item.id)
 				}else{
-					this.infoNum.likeNum++
-					await this.$emit("likeOrTread",{
-							uid: this.userInfo.id,
-							id: this.item.id,
-							like: true
-						})
+					this.item.like_num++
+					await this.$emit("likeOrTread",this.item.id)
+				
 				}
-				this.infoNum.agree = !this.infoNum.agree
+				this.item.is_like = !this.item.is_like
 			},
 			imgdetail(index){
 				uni.previewImage({
@@ -292,6 +259,16 @@
 .common-list-r .list4>image{
 	margin-bottom: 10upx;
 	border-radius: 20upx;
+}
+
+.container1 {
+        padding: 10px;
+}
+
+#editor {
+        width: 100%;
+        height: 300px;
+        background-color: #CCCCCC;
 }
 
 </style>

@@ -27,7 +27,8 @@
 	import time from "../../common/time.js";
 	import userChatList from "../../components/user-chat/user-chat-list.vue";
 	import {mapState,mapMutations,mapGetters} from 'vuex'
-	import {pushMessage,createChat} from '@/api/user-chat.js'
+	import {pushMessage, createChat, getChat} from '@/api/user-chat.js'
+	import {picUrl} from '@/api/common.js'
 	import Vue from 'vue'
 	export default {
 		components:{
@@ -73,28 +74,30 @@
 					title:this.chatList[this.msgIndex].username
 				})
 			}
-			 this.fid = data.fid
-			 let fid = data.fid
+			this.fid = data.fid
+			let fid = data.fid
 			let flag = true
 			if(!data.index&&!!fid){
-				for(let i =0;i<this.chatList.length;i++){
-					if(this.chatList[i].fid == fid){
-						this.index = i
-						this.setIndex(i)
-						flag = false
-						return
-					}
-				}
+				// for(let i =0;i<this.chatList.length;i++){
+				// 	if(this.chatList[i].fid == fid){
+				// 		this.index = i
+				// 		this.setIndex(i)
+				// 		flag = false
+				// 		return
+				// 	}
+				// }
 				if(flag){
 					this.fid = fid
 					let chat = await createChat({
-						fromId: this.userInfo.id,
-						toId:parseInt(fid),
+						from_user_id: this.userInfo.id,
+						to_user_id:parseInt(fid),
+						chatroom_name:""
 					})
 					this.cId = chat.id
-					chat.time= time.gettime.gettime(chat.afterTime)
+					let ans=await getChat(chat.id)
+					chat.time= time.gettime.gettime(ans.afterTime)
 					this.setIndex(0)
-					this.addChatList(chat);
+					this.addChatList(ans);
 				}
 
 			}else{
@@ -173,7 +176,7 @@
 
 			goToUserInfo(item){
 				uni.navigateTo({
-					url:'../../pages/user-space/user-space?uid='+item.uid
+					url:'../../pages/user-space/user-space?uid='+this.chatList[this.msgIndex].fid
 				})
 			},
 			// 获取聊天数据
@@ -194,10 +197,10 @@
 					return
 				}
 				let msg =await pushMessage({
-					cId: this.cId,
-					fromId: this.userInfo.id,
-					toId: this.fid,
-					message: data
+					"cId": this.cId,
+					"fromId": this.userInfo.id,
+					"toId": this.fid,
+					"content": data
 				}) 
 				if(msg.code&&msg.code!=0){
 					uni.showToast({
@@ -207,15 +210,15 @@
 					return
 				}
 				let obj={
-						fromId:msg.fromId,
-						toId:msg.toId,
+						fromId:this.userInfo.id,
+						toId:this.fid,
 						index:this.index,
-						isme:msg.fromId==this.userInfo.id,
-						userpic:this.userInfo.authorUrl,
+						isme:true,
+						userpic:picUrl + this.userInfo.userpic,
 						type:"text",
-						message:msg.message,
-						time:  time.gettime.gettime(msg.sendTime),
-						sendTime:msg.sendTime
+						message:data,
+						time:  time.gettime.gettime(now),
+						sendTime:now
 					}
 				this.addChatMessage(obj)
 				this.pageToBottom(true);

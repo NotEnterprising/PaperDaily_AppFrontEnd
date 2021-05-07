@@ -48,12 +48,12 @@
 				if(index){
 					this.setUserInfo({});
 					uni.clearStorageSync('userInfo')
+					uni.clearStorageSync('token')
+					uni.clearStorageSync('refresh_token')
 					this.setChatList([])
-					console.log("test1")
 					uni.switchTab({
 						url:'../home/home'
 					})
-					
 				}else{
 					this.showActionSheet = false
 				}

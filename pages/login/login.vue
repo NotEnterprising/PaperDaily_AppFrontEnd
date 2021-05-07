@@ -92,8 +92,8 @@
 		data() {
 			return {
 				status: false, //false代表账号密码登录，true代表手机验证码登录
-				mobile: '18373118',
-				password: '18373118',
+				mobile: '',
+				password: '',
 				popupShow: false,
 				code: '',
 				isSend: false,
@@ -187,6 +187,7 @@
 					username: this.mobile,
 					password: this.password
 				})
+				console.log(data)
 				if("code" in data){
 					if (data.code===401) {
 						this.$http.toast("账号或密码错误");
@@ -196,14 +197,10 @@
 					return
 				}
 					
+				uni.setStorageSync('userInfo', JSON.stringify(data.userInfo));
+				uni.setStorageSync('token', data.access_token);
+				uni.setStorageSync('refresh_token',data.refresh_token)
 				
-				try {
-					uni.setStorageSync('userInfo', JSON.stringify(data.userInfo));
-					uni.setStorageSync('token', data.access_token);
-					uni.setStorageSync('refresh_token',data.refresh_token)
-				} catch (e) {
-				
-				}
 				
 				this.setUserInfo(data.userInfo);
 				uni.switchTab({

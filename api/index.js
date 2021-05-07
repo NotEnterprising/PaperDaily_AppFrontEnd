@@ -3,8 +3,7 @@ import {
 	headers
 } from './common.js'
 export const  getTopicList =async () => {
-	let data = await axios.get('Interpretation/recommend',{},headers)
-	console.log(data.length)
+	let data = await axios.get('recommend',{},headers)
 	 if(data&&data.length){
 		 // data.items.forEach((item)=>{
 		 // 	if(item.images!=null&&item.images!=''){

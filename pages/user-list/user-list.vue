@@ -164,9 +164,9 @@
 			},
 			
 			async initData(){
-				let  attData = await getUserAttList()
-				let  eachData = await getUserEachList()
-				let  fansData =await getUserFansList(eachData)
+				let  attData = await getUserAttList(this.userInfo.id)
+				let  eachData = await getUserEachList(this.userInfo.id)
+				let  fansData =await getUserFansList(this.userInfo.id,eachData)
 				this.tabBars[0].num = eachData.length
 				this.tabBars[1].num = attData.length
 				this.tabBars[2].num = fansData.length

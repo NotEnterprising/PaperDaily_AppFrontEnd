@@ -161,8 +161,6 @@
 					password: this.password,
 					email:this.email,
 				})
-				console.log("data:");
-				console.log(data);
 				if (!data || (data && !("id" in data))) {
 					let msg = data.error_msg
 					if(msg && data.code===409){

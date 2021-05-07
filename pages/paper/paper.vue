@@ -133,12 +133,14 @@
 			]),
 			...mapActions(['setSocketV','addChatListMessage']),
 			async initData() {
-				console.log("begin")
+				console.log(this.userInfo)
+				console.log("test")
 				let chatList = await getChatList(this.userInfo)
 				console.log(chatList)
 				this.setChatList(chatList);
 				this.sortChatList()
 				uni.setStorageSync('chatList', JSON.stringify(this.chatList))
+				console.log(this.userInfo)
 			},
 			onClick(item, index) {
 				deleteChat(item.id)
@@ -211,6 +213,7 @@
 					})
 				}
 			},
+			
 			readMsg(index) {
 				this.setIndex(index)
 				if (this.currentChatMsgs.length == 0) {
@@ -220,7 +223,7 @@
 					return
 				}
 				let msgs = this.currentChatMsgs.filter((item => {
-					if (item.id && item.status == false) {
+					if (item.id && item.status == 0 && item.uid !=this.userInfo.id) {
 						return true
 					} else {
 						return false
@@ -229,13 +232,14 @@
 				let mids = msgs.map((item => {
 					return item.id
 				}));
-				readChatMsg(mids)
+				console.log("test here")
+				readChatMsg(mids,this.chatList[index].id)
 				this.updateMsg(index)
 
 			},
 			// 操作菜单
+			
 			addfriend() {
-				console.log("加韩友");
 				uni.navigateTo({
 					url: '../user-search/user-search'
 				})

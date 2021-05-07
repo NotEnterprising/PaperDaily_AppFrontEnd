@@ -1,59 +1,62 @@
 import axios from '@/config/requestConfig.js';
 import time from '../common/time.js'
 import {
-	headers
+	headers,
+	picUrl
 } from './common.js'
 export const getChatList = async (userInfo) => {
 	axios.setLoading(true);
-	let data = await axios.get('chat/list',{},headers);
+	let room = await axios.get('chat/list',{},headers);
+	let data = room.chatroom_list
 	if(data&&data.length==0){
 		return []
 	}
+	console.log(data)
 	axios.setLoading(false);
 	if (data && data.length) {
 		let chatList = data.map((item) => {
-			let count = item.messages.reduce((prev, item) => {
-				if (item.status == 0 && item.toId == userInfo.id) {
+			let count = item.message_list.reduce((prev, item) => {
+				if (item.read_state == 0 && item.to_user_id == userInfo.id) {
 					return prev + 1
 				} else {
 					return prev
 				}
 			}, 0)
-			let fid = userInfo.id == item.fromId ? item.toId : item.fromId
-			let len = item.messages.length - 1
-			let sendTime = item.messages[len] ?
-				time.gettime.gettime(item.messages[len].sendTime) :
+			let fid = userInfo.id == item.from_user_id ? item.to_user_id : item.from_user_id
+			let len = item.message_list.length - 1
+			let sendTime = item.message_list[len] ?
+				time.gettime.gettime(item.message_list[len].created_at) :
 				time.gettime.gettime(new Date())
-			let message = item.messages[len] ? item.messages[len].message :
+			let message = item.message_list[len] ? item.message_list[len].content :
 				''
-			let msgList = item.messages.map((mItem) => {
+			let msgList = item.message_list.map((mItem) => {
 				return {
-					id: mItem.id,
-					isme: mItem.fromId == userInfo.id,
-					uid: mItem.fromId == userInfo.id ? mItem.toId : mItem.fromId,
-					userpic: mItem.fromId == userInfo.id ? "https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png" : item.userpic,
-					//userInfo.authorUrl
+					id: mItem.message_id,
+					isme: mItem.from_user_id == userInfo.id,
+					uid: mItem.from_user_id,
+					userpic: picUrl+mItem.from_user_pic,
 					type: "text",
-					message: mItem.message,
-					time: time.gettime.gettime(mItem.sendTime),
-					gstime: time.gettime.getChatTime(mItem.sendTime),
-					status: mItem.status,
+					message: mItem.content,
+					time: time.gettime.gettime(mItem.created_at),
+					gstime: time.gettime.getChatTime(mItem.created_at),
+					status: mItem.read_state,
 				}
 			})
 			return {
-				id: item.id,
+				id: item.chatroom_id,
 				fid: fid,
-				fromId: item.fromId,
-				toId: item.toId,
+				fromId: item.from_user_id,
+				toId: item.to_user_id,
 				afterTime: +new Date(item.afterTime),
-				userpic: item.userpic,
-				username: item.username,
+				userpic: item.from_user_id==userInfo.id?picUrl+item.to_user_pic:picUrl+item.from_user_pic,
+				username: item.from_user_id==userInfo.id?item.to_user_name:item.from_user_name,
 				time: sendTime,
 				message: message,
 				noreadnum: count,
 				messages: msgList
 			}
 		})
+		console.log(chatList)
 		return chatList
 	}
 }
@@ -67,15 +70,16 @@ export const deleteChat = async (id) => {
 }
 export const updateChat = async (id) => {
 	axios.setLoading(true);
-	axios.put('chat/read', {
-		mids: [id]
+	axios.post('chat/read', {
+		messageId: [id]
 	}, headers)
 	axios.setLoading(false);
 }
-export const readChatMsg = async (mids) => {
+export const readChatMsg = async (mids,cId) => {
 	axios.setLoading(true);
-	await axios.put('chat/read', {
-		mids: mids
+	await axios.post('chat/read', {
+		messageIds: mids,
+		cId:cId
 	}, headers)
 	axios.setLoading(false);
 }

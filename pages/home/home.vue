@@ -39,7 +39,11 @@
 	import {
 		getUserProfile,
 	} from "@/api/home.js";
-
+	
+	import {
+		picUrl
+	} from "@/api/common.js";
+	
 	import {
 		webUrl
 	} from '../../common/config.js'
@@ -58,7 +62,7 @@
 		},
 		onShow() {
 			if (this.userInfo.id) {
-				this.homeinfo.userpic = "https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png"
+				this.homeinfo.userpic = picUrl+this.userInfo.icon
 				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
 				if (!this.islogin) {
@@ -78,7 +82,8 @@
 		async mounted() {
 			this.initDat()
 			if (this.userInfo.id) {
-				this.homeinfo.userpic = "https://file.iviewui.com/dist/a0e88e83800f138b94d2414621bd9704.png"
+				this.homeinfo.userpic = picUrl+this.userInfo.icon
+				console.log(this.homeinfo.userpic)
 				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
 				if (!this.islogin) {
@@ -95,8 +100,8 @@
 			return {
 				islogin: false,
 				homeinfo: {
-					userpic: this.userInfo ? this.userInfo.authorUrl : '',
-					username: this.userInfo ? this.userInfo.userName : "",
+					userpic: this.userInfo ? this.userInfo.userpic : '',
+					username: this.userInfo ? this.userInfo.username : "",
 					totalnum: 0,
 					todaynum: 0,
 				},
