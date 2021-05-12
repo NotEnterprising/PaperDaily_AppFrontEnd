@@ -47,6 +47,9 @@
 
 <script>
 	import {uploudFile} from '@/api/user-face.js'
+	import {
+		picUrl
+	} from "@/api/common.js";
 	let sysInfo = uni.getSystemInfoSync();
 	let SCREEN_WIDTH = sysInfo.screenWidth
 	let PAGE_X, // 手按下的x位置
@@ -282,7 +285,7 @@
 						success: async (res)=> {
 							// 成功获得地址的地方
 							var tempFacePath = res.tempFilePath;
-							const url=uni.uploadFile({
+							const ans=uni.uploadFile({
 									url:'http://114.115.168.211:8000/api/user/icon',
 									header: {  
 									        'Content-Type': "multipart/form-data",
@@ -294,9 +297,10 @@
 										console.log('上传成功！')
 									}
 							})
+							let url=ans.url
 							if(url){
 								console.log(this.userInfo)
-								this.userInfo.userpic = url
+								this.userInfo.userpic = picUrl+url
 								this.setUserInfo(userInfo)
 								uni.navigateBack()
 							}

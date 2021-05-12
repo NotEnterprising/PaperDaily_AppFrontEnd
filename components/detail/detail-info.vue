@@ -9,31 +9,30 @@
 					<view class="common-list-l" @tap="goToUserInfo(item)">
 						<image :src="item.userpic" class="com-img" lazy-load></image>
 						<view class="u-f-ac dre">
-							<text class="author-name">{{item.created_by.username}} </text>
-							<!-- <tag-sex-age :ugender="item.ugender" :age="item.age"></tag-sex-age> -->
+							<text class="author-name">{{created_by.username}} </text>
 						</view>
 					</view>
-			<template v-if="!isme">
-				<view v-if="!isguanzhu" @tap="guanzhu"
-					class="icon iconfont icon-zengjia guanzhu">关注</view>
-				<view v-else @tap="guanzhu"
-				class="icon iconfont guanzhu">取消关注</view>
-			</template>
+					<template v-if="!isme">
+						<view v-if="!isguanzhu" @tap="guanzhu"
+							class="icon iconfont icon-zengjia guanzhu">关注</view>
+						<view v-else @tap="guanzhu"
+							class="icon iconfont guanzhu">取消关注</view>
+					</template>
 				</view>
 				<view class="common-list-r-time">{{createDate}}</view>
 			</view>
-			<view span="7" class="container1" @tap="opendetail">
+			<view span="7" class="container1">
 			    <editor v-html="item.content" read-only=true></editor>
 			</view>
-
 			
+
 			<view class="u-f-ac u-f-jsb">
 				<view>{{item.path}}</view>
 				<view class="u-f-ac">
-					<view class="active-comm" @tap="onCollect">
-						<tui-icon :name="item.is_favor?'star-fill':'star'" :color="item.is_favor?'#FFE933':''"  :size="size" unit="upx"></tui-icon>
-						<text class="active-text">{{item.is_favor?"取消收藏": "收藏"}}</text>
-					</view>
+				<view class="active-comm" @tap="onCollect">
+					<tui-icon :name="item.is_favor?'star-fill':'star'" :color="item.is_favor?'#FFE933':''"  :size="size" unit="upx"></tui-icon>
+					<text class="active-text">{{item.is_favor?"取消收藏": "收藏"}}</text>
+				</view>
 
 				<view class="active-comm" @tap="giveLike">
 					<tui-icon :name="item.is_like?'agree-fill': 'agree'" :color="item.is_like?'#FFE933': ''" :size="size" unit="upx"></tui-icon>
@@ -54,33 +53,20 @@
 
 <script>
 	import time from "../../common/time.js";
-	import tagSexAge from "../common/tag-sex-age.vue"
 	import { headers } from "@/api/common.js"
 	export default {
 		components:{
-			tagSexAge
 		},
 		props:{
-			item:{
-				type:Object
-			},
+			item:Object,
 			userInfo:Object,
-			infoNum:Object
+			created_by:Object
 		},
 		data() {
 			return {
 				isguanzhu: this.item.isguanzhu,
 				list: "list3",
 				size: 48,
-				collect: this.item.collect,
-				topicActive:{
-					uid:this.userInfo.id,
-					tid:this.item.id,
-					tuid: this.item.uid,
-					cid:this.item.cid
-					
-				}
-
 			}
 		},
 		computed:{
@@ -89,23 +75,15 @@
 				return time.gettime.sumAge(data)
 			},
 			isme(){
-				return 	this.userInfo.id==this.item.created_by.id
+				return 	this.userInfo.id==this.created_by.id
 			}
 		},
 		mounted(){
-			console.log(this.userInfo.id,this.item)
+			console.log(this.item)
 		},
 		watch:{
 			'item.id':function(){
 				this.isguanzhu= this.item.isguanzhu
-				this.collect = this.item.collect
-				this.topicActive={
-					uid:this.userInfo.id,
-					tid:this.item.id,
-					tuid: this.item.uid,
-					cid:this.item.cid
-				}
-				
 			}
 		},
 		methods:{
@@ -118,16 +96,14 @@
 					this.$http.href('../../pages/login/login')
 					return 
 				}
-				this.$http.post('Interpretation/collect',{
-					id:this.item.id,
-					uid:this.userInfo.id,
-				},headers)
-				if(this.collect){
+				if(this.item.is_favor){
+					this.$http.post('Interpretation/'+this.item.id+'/unfavor',{},headers)
 					this.$http.toast("取消收藏!")
 				}else{
+					this.$http.post('Interpretation/'+this.item.id+'/favor',{},headers)
 					this.$http.toast("收藏成功!")
 				}
-				this.collect = !this.collect
+				this.item.is_favor = !this.item.is_favor
 			},
 			guanzhu(){
 				if(!this.userInfo.id){
@@ -135,11 +111,11 @@
 					return 
 				}
 				if(this.isguanzhu){
-					this.$http.post('user/'+this.userinfo.id+'/unfollow',{},headers)
+					this.$http.post('user/'+this.created_by.id+'/unfollow',{},headers)
 					this.isguanzhu=false;
-						this.$http.toast("取消关注!")
+					this.$http.toast("取消关注!")
 				}else{
-					this.$http.post('user/'+this.userinfo.id+'/follow',{},headers)
+					this.$http.post('user/'+this.created_by.id+'/follow',{},headers)
 					this.isguanzhu=true;
 					this.$http.toast("关注成功!")
 
@@ -168,12 +144,6 @@
 				
 				}
 				this.item.is_like = !this.item.is_like
-			},
-			imgdetail(index){
-				uni.previewImage({
-					current:index,
-					urls:this.item.images
-				})
 			}
 		}
 	}

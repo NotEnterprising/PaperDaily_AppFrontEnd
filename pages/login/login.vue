@@ -76,6 +76,10 @@
 		userLoginCode,
 		login,
 	} from '@/api/login.js'
+	
+	import{
+		picUrl
+	} from '@/api/common.js'
 	export default {
 		computed: {
 			disabled: function() {
@@ -200,8 +204,7 @@
 				uni.setStorageSync('userInfo', JSON.stringify(data.userInfo));
 				uni.setStorageSync('token', data.access_token);
 				uni.setStorageSync('refresh_token',data.refresh_token)
-				
-				
+				data.userInfo.userpic=picUrl+data.userInfo.userpic
 				this.setUserInfo(data.userInfo);
 				uni.switchTab({
 					url: '/pages/home/home'

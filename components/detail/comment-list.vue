@@ -5,9 +5,9 @@
 			<view class="uni-comment-body">
 				<view class="uni-comment-top">
 					<text>{{item.username}}</text>
-					<text v-if="userInfo.id==item.uid" @tap="deleteCom(item)">删除</text>
+					<text v-if="userInfo.id==item.user_id" @tap="deleteCom(item)">删除</text>
 				</view>
-				<view class="uni-comment-content" @tap="comment(item)">{{item.content}}</view>
+				<view class="uni-comment-content" @tap="comment(item)">{{item.text}}</view>
 				<view class="uni-comment-date">
 					<view>{{time}}</view>
 				</view>
@@ -22,7 +22,7 @@
 				<view class="uni-comment-body">
 					<view class="uni-comment-top">
 						<text>{{items.username}}</text>
-						<text v-if="userInfo.id==items.uid" @tap="deleteCom(items)">删除</text>
+						<text v-if="userInfo.id==items.user_id" @tap="deleteCom(items)">删除</text>
 					</view>
 					<!-- @tap="comment(items)" -->
 					<view class="uni-comment-content" @tap="comment(item)">{{items.content}}</view>
@@ -60,7 +60,7 @@
 		},
 		computed:{
 			time(){
-				let date = new Date(this.item.createTime).getTime()
+				let date = new Date(this.item.created_at).getTime()
 				return time.gettime.gettime(date);
 		}
 	},

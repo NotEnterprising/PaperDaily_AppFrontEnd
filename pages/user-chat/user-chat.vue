@@ -214,7 +214,7 @@
 						toId:this.fid,
 						index:this.index,
 						isme:true,
-						userpic:picUrl + this.userInfo.userpic,
+						userpic:this.userInfo.userpic,
 						type:"text",
 						message:data,
 						time:  time.gettime.gettime(now),
@@ -222,6 +222,7 @@
 					}
 				this.addChatMessage(obj)
 				this.pageToBottom(true);
+				
 			}
 		}
 	}

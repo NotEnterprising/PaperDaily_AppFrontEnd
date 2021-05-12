@@ -99,12 +99,11 @@
 
 			},
 			async likeOrTread(data) {
-				giveLike(data)
-				if(data.tactive==1){
-					this.$http.toast("点赞成功!")
-				}else{
+				giveLike(data.id)
+				if(data.is_like){
 					this.$http.toast("你已取消点赞!")
-					
+				}else{
+					this.$http.toast("点赞成功!")
 				}
 			},
 			share() {

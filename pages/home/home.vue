@@ -62,7 +62,7 @@
 		},
 		onShow() {
 			if (this.userInfo.id) {
-				this.homeinfo.userpic = picUrl+this.userInfo.icon
+				this.homeinfo.userpic = this.userInfo.userpic
 				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
 				if (!this.islogin) {
@@ -82,8 +82,7 @@
 		async mounted() {
 			this.initDat()
 			if (this.userInfo.id) {
-				this.homeinfo.userpic = picUrl+this.userInfo.icon
-				console.log(this.homeinfo.userpic)
+				this.homeinfo.userpic = this.userInfo.userpic
 				this.homeinfo.username = this.userInfo.username
 				this.homeinfo.email = this.userInfo.email
 				if (!this.islogin) {

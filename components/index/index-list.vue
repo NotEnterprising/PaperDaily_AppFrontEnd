@@ -96,10 +96,10 @@
 				}
 				if(this.item.is_like){
 					this.item.like_num--
-					await this.$emit("likeOrTread",this.item.id)
+					await this.$emit("likeOrTread",this.item)
 				}else{
 					this.item.like_num++
-					await this.$emit("likeOrTread",this.item.id)
+					await this.$emit("likeOrTread",this.item)
 				}
 				this.item.is_like = !this.item.is_like
 			},

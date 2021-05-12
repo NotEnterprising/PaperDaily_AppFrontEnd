@@ -10,7 +10,6 @@ export const saveUserAccess = async (data) => {
 
 export const getUserInfo = async (data) => {
 	let result = await axios.get('user/profile',data,headers);
-	console.log(result)
 	return result
 }
 

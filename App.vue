@@ -3,6 +3,9 @@
 	import {
 		tokenRefresh
 	} from "@/api/login.js";
+	import{
+		picUrl
+	} from '@/api/common.js'
 	export default {
 		async onLaunch() {
 			// 网路监听（用户目前断网，切换wifi）
@@ -27,6 +30,7 @@
 			if(uni.getStorageSync('refresh_token')){
 				res = await tokenRefresh()
 			}
+			res.userInfo.userpic=picUrl+res.userInfo.userpic
 			if(res && res.code==401){
 				uni.clearStorageSync('token')
 				uni.clearStorageSync('chatList')

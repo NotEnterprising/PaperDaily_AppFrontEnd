@@ -85,8 +85,6 @@
 			...mapState(['userInfo'])
 		},
 		onLoad(data) {
-			console.log("test here")
-			console.log(data)
 			this.info.id = data.uid
 			this.initData(data.uid)
 			if(data.uid!=this.userInfo.id){

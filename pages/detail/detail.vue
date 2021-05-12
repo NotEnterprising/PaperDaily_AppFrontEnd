@@ -2,7 +2,7 @@
 	<view class="detail">
 		<detail-info @goToUserInfo="goToUserInfo"
 			@likeOrTread="likeOrTread"
-		   :userInfo="userInfo" @comSubimt="comSubimt" :item="detail"></detail-info>
+		   :userInfo="userInfo" @comSubimt="comSubimt" :item="detail" :created_by="created_by"></detail-info>
 
 		<view class="u-comment-title" :maskState="maskState">最新评论 {{comment.count}}</view>
 		<view class="uni-comment u-comment">
@@ -79,7 +79,7 @@
 					}
 				],
 				detail: {},
-				infoNum:{
+				created_by:{
 					
 				},
 				maskState: false
@@ -113,6 +113,7 @@
 				let detail = await getTopicDetail(id)
 				this.detail = detail
 				this.comment.count = detail.commentNum
+				this.created_by = detail.created_by
 				// if (this.userInfo.id) {
 				// 	let opt = {
 				// 		cid: detail.cid,
@@ -125,6 +126,7 @@
 				// 	pushHistory(opt)//push用户浏览历史
 				// }
 				this.getcomment();
+				
 				this.$nextTick(()=>{
 					this.detail = detail
 				})
@@ -183,16 +185,16 @@
 				}
 				if(this.currentComm.title){
 					await addComment({
-						uid: this.userInfo.id,
-						parentId: null,
-						id: this.currentComm.id,
+						interpretation_id:this.detail.id,
+						parent_comment_id: null,
+						to_user_id: null,
 						content: text
 					})
 				}else{
 					await addComment({
-						uid: this.userInfo.id,
-						parentId: this.currentComm.id,
-						id: this.currentComm.tid,
+						interpretation_id:this.detail.id,
+						parent_comment_id: this.currentComm.id,
+						to_user_id: this.currentComm.user_id,
 						content: text
 					})
 				}
@@ -211,17 +213,17 @@
 			},
 			async likeOrTread(data) {
 				giveLike(data)
-				if(data.like){
-					this.$http.toast("点赞成功!")
-				}else{
+				if(this.detail.is_like){
 					this.$http.toast("你已取消点赞!")
+				}else{
+					this.$http.toast("点赞成功!")
 					
 				}
 			},
 			// 获取评论
 			async getcomment() {
-				let items = await getCommentList(this.detail.id)
-				this.comment.list = items;
+				let items = await getCommentList({"interpretation_id":this.detail.id})
+				this.comment.list = items.ans;
 				this.comment.count = items.length;
 				this.detail.commentNum = items.length
 			},
