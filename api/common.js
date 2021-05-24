@@ -4,18 +4,12 @@ import axios from '@/config/requestConfig.js';
 //可以new多个request来支持多个域名请求
 //点赞功能
 export const  giveLike = async (id) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	let result = await axios.post('Interpretation/'+id+'/like',{},headers);
 	return result
 }
 
-export const  headers = {
-	"Authorization":'Bearer ' + uni.getStorageSync('token')
-}
-
-
-
-export const  refreshHeaders = {
-	"Authorization":'Bearer ' + uni.getStorageSync('refresh_token')
-}
 
 export const picUrl= "http://114.115.168.211:8000/api/"

@@ -21,11 +21,11 @@
 				</view>
 				<view class="common-list-r-time">{{createDate}}</view>
 			</view>
-			<view span="7" class="container1">
-			    <editor v-html="item.content" read-only=true></editor>
+			
+			<view>
+				<rich-text v-html="item.content"></rich-text>
 			</view>
 			
-
 			<view class="u-f-ac u-f-jsb">
 				<view>{{item.path}}</view>
 				<view class="u-f-ac">
@@ -53,7 +53,6 @@
 
 <script>
 	import time from "../../common/time.js";
-	import { headers } from "@/api/common.js"
 	export default {
 		components:{
 		},
@@ -92,6 +91,9 @@
 			},
 
 			onCollect(){
+				let headers = {
+					"Authorization":'Bearer ' + uni.getStorageSync('token')
+				}
 				if(!this.userInfo.id){
 					this.$http.href('../../pages/login/login')
 					return 
@@ -106,6 +108,9 @@
 				this.item.is_favor = !this.item.is_favor
 			},
 			guanzhu(){
+				let headers = {
+					"Authorization":'Bearer ' + uni.getStorageSync('token')
+				}
 				if(!this.userInfo.id){
 					this.$http.href('../../pages/login/login')
 					return 
@@ -237,7 +242,6 @@
 
 #editor {
         width: 100%;
-        height: 300px;
         background-color: #CCCCCC;
 }
 

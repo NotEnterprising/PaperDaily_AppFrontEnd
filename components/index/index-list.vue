@@ -6,7 +6,7 @@
 			</view>
 			<view class="author-wrap" @tap="opendetail">
 				<image class="anthor-pic" :src="item.userpic" lazy-load mode="aspectFill"></image>
-				<text class="author-name">{{item.created_by.username}}</text>
+				<text class="author-name">{{item.username}}</text>
 			</view> 
 			<view span="7" class="container1" @tap="opendetail">
 			    <editor v-html="item.content" read-only=true></editor>

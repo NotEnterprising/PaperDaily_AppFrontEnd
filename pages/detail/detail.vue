@@ -87,6 +87,7 @@
 			}
 		},
 		onLoad(data) {
+			
 			try {
 				this.initData(data.id)
 			} catch (e) {
@@ -114,18 +115,14 @@
 				this.detail = detail
 				this.comment.count = detail.commentNum
 				this.created_by = detail.created_by
-				// if (this.userInfo.id) {
-				// 	let opt = {
-				// 		cid: detail.cid,
-				// 		tid: detail.id,
-				// 		uid: this.userInfo.id,
-				// 		title: detail.title,
-				// 		username: detail.username,
-				// 		userpic: detail.userpic
-				// 	}
-				// 	pushHistory(opt)//push用户浏览历史
-				// }
-				this.getcomment();
+				if (this.userInfo.id) {
+					let data = {
+						user_id: this.userInfo.id,
+						interpretation_id: detail.id,
+					}
+					pushHistory(data)//push用户浏览历史
+				}
+				this.getcomment(detail.uid);
 				
 				this.$nextTick(()=>{
 					this.detail = detail
@@ -221,8 +218,8 @@
 				}
 			},
 			// 获取评论
-			async getcomment() {
-				let items = await getCommentList({"interpretation_id":this.detail.id})
+			async getcomment(id) {
+				let items = await getCommentList(id,{"interpretation_id":this.detail.id})
 				this.comment.list = items.ans;
 				this.comment.count = items.length;
 				this.detail.commentNum = items.length

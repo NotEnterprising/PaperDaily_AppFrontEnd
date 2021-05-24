@@ -1,17 +1,18 @@
 import axios from '@/config/requestConfig.js';
 import time from '../common/time.js'
 import {
-	headers,
 	picUrl
 } from './common.js'
 export const getChatList = async (userInfo) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	axios.setLoading(true);
 	let room = await axios.get('chat/list',{},headers);
 	let data = room.chatroom_list
 	if(data&&data.length==0){
 		return []
 	}
-	console.log(data)
 	axios.setLoading(false);
 	if (data && data.length) {
 		let chatList = data.map((item) => {
@@ -56,19 +57,24 @@ export const getChatList = async (userInfo) => {
 				messages: msgList
 			}
 		})
-		console.log(chatList)
 		return chatList
 	}
 }
 export const deleteChat = async (id) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	axios.setLoading(true);
-	let result = await axios.delete('chat/delete', {
+	let result = await axios.post('chat/delete', {
 		cids: typeof id == "number"? [id]:[...id]
 	}, headers);
 	axios.setLoading(false);
 	return result
 }
 export const updateChat = async (id) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	axios.setLoading(true);
 	axios.post('chat/read', {
 		messageId: [id]
@@ -76,6 +82,9 @@ export const updateChat = async (id) => {
 	axios.setLoading(false);
 }
 export const readChatMsg = async (mids,cId) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	axios.setLoading(true);
 	await axios.post('chat/read', {
 		messageIds: mids,

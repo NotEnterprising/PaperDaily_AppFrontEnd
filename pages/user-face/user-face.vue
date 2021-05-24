@@ -285,7 +285,7 @@
 						success: async (res)=> {
 							// 成功获得地址的地方
 							var tempFacePath = res.tempFilePath;
-							const ans=uni.uploadFile({
+							let ans=uni.uploadFile({
 									url:'http://114.115.168.211:8000/api/user/icon',
 									header: {  
 									        'Content-Type': "multipart/form-data",
@@ -293,17 +293,27 @@
 									filePath:tempFacePath,
 									name:'files',
 									formData:{'user': this.userInfo.id},
-									success(res) {
-										console.log('上传成功！')
-									}
+									success:(res) => {
+											let url=res.data
+									        if(url){
+									        	let userInfo = this.userInfo;
+									        	userInfo.userpic = picUrl+url;
+									        	this.setUserInfo(userInfo);
+									        }
+											uni.showToast({
+																		icon:'none',
+																		title:'提交成功',
+																		success: (res) => { 
+																			setTimeout(() => { 
+																				uni.navigateBack({ 
+																					delta: 1
+																				})
+																			}, 2000)
+																		}
+																	})
+											
+								}
 							})
-							let url=ans.url
-							if(url){
-								console.log(this.userInfo)
-								this.userInfo.userpic = picUrl+url
-								this.setUserInfo(userInfo)
-								uni.navigateBack()
-							}
 						}
 					});
 				});

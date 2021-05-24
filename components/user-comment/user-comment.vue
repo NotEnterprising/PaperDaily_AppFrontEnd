@@ -17,16 +17,6 @@
 			<view class="user-comm">
 				{{item.comment}}
 			</view>
-			<view class="comm-topic">
-					<image :src="item.topicpic"></image>
-					<view class="topic-title">
-							<text class="c-topic">
-										{{item.topicTitle}}
-							</text>
-							<text class="title">{{item.title}}</text>
-					</view>
-					<tui-icon name="arrowright" :size="46"></tui-icon>
-			</view>
 		</view>
 	</view>
 </template>

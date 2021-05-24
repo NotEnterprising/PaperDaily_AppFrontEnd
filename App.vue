@@ -21,7 +21,7 @@
 			}catch(e){
 			
 			}
-
+			
 			// 更新检测
 		},
 		async onShow () {

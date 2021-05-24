@@ -1,7 +1,4 @@
 import axios from '@/config/requestConfig.js';
-import {
-	refreshHeaders
-} from './common.js'
 // export const sendLoginCode = async (phone) => {
 // 	let data = await axios.post('user/login/' + phone)
 // 	return data
@@ -24,6 +21,9 @@ export const login = async(data) => {
 }
 
 export const tokenRefresh = async() => {
+	let refreshHeaders = {
+		"Authorization":'Bearer ' + uni.getStorageSync('refresh_token')
+	}
 	let result=await axios.get('token-refresh',{},refreshHeaders)
 	return result
 }

@@ -1,30 +1,25 @@
 <template class="box-body">
 	<view class="box">
 		<view class="father-box">
-			<view class="content" @tap="gotoTopicInfo">
-				<text style="font-weight: bold;font-size:small;">				
-				{{cardinfo.content.slice(0,35)}}....
+			<view class="content" @tap="openDetail">
+				<text style="font-weight: bolder;font-size:x-large;color: #3F536E;">
+				{{cardinfo.index+"		"}}
+				</text>
+				<text style="font-weight: 650;font-size:medium;">				
+				{{cardinfo.content.slice(0,25)}}
 				</text>
 			</view>
 			
-			<view class="u-f-ac u-f-jsb">
-				<view class="time" >
-						{{cardinfo.createTime}}
+			<view class="header" @tap="openDetail">
+				<image class="img" :src="cardinfo.userpic"></image>
+				<view class="auth">
+				<text style="font-weight: 300;font-size:small;">{{cardinfo.username}}</text>
 				</view>
-				<view class="active-comm">
-					<tui-icon name="star" :color="''"></tui-icon>
-					<text class="active-text">{{cardinfo.favor_num}}</text>
-				</view>
-				<view class="active-comm">
-					<tui-icon name="agree" :color="''"></tui-icon>
-					<text class="active-text">{{cardinfo.like_num}}</text>
-				</view>
-				
+				<view class="time">{{cardinfo.createTime}}</view>
 			</view>
-
+			
 		</view>
 	</view>
-
 </template>
 
 <script>
@@ -34,7 +29,6 @@
 			cardinfo: {
 				type: Object
 			},
-			userpic:Object,
 			index:Number
 		},
 		data() {
@@ -43,8 +37,8 @@
 			};
 		},
 		methods:{
-			gotoTopicInfo(){
-				this.$emit("gotoTopic",this.index)
+			openDetail(){
+				this.$emit("opendDetail",this.cardinfo)
 			}
 		}
 	}
@@ -66,10 +60,10 @@
 
 	.img {
 		margin: 20upx 0px 20upx 50upx;
-		height: 90upx;
-		width: 90upx;
-		border-radius: 90upx;
-		border: 1px solid #007AFF;
+		height: 70upx;
+		width: 70upx;
+		border-radius: 70upx;
+		border: 1px solid #ffffff;
 		display: inline-flex;
 	}
 
@@ -85,7 +79,8 @@
 		font-family: Arial, Helvetica, sans-serif;
 		font-size: 12px;
 		display: inline-flex;
-		margin-left: 70upx;
+		margin-left: 170upx;
+		margin-top: -20upx;
 		color: #808080;
 	}
 
@@ -96,7 +91,7 @@
 		font-size: 14px;
 		color: #24292E;
 		font-style: italic;
-		margin-left: 20upx;
+		margin-left: 0upx;
 		margin-right: 60upx;
 		margin-top: 20upx;
 		height: 70upx;

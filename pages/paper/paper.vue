@@ -102,7 +102,6 @@
 			this.loadmore();
 		},
 		async onLoad() {
-
 		},
 		// 监听导航按钮点击事件
 		onNavigationBarButtonTap(e) {
@@ -133,10 +132,8 @@
 			]),
 			...mapActions(['setSocketV','addChatListMessage']),
 			async initData() {
-				console.log(this.userInfo)
-				console.log("test")
+				let token=uni.getStorageSync('token')
 				let chatList = await getChatList(this.userInfo)
-				console.log(chatList)
 				this.setChatList(chatList);
 				this.sortChatList()
 				uni.setStorageSync('chatList', JSON.stringify(this.chatList))

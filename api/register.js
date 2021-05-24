@@ -1,7 +1,4 @@
 import axios from '@/config/requestConfig.js';
-import {
-	headers
-} from './common.js'
 
 
 
@@ -11,7 +8,7 @@ export const userRegister = async (data) => {
 	return result
 }
 
-export const getCode = async (email) => {
+export const getCode = async (data) => {
 	axios.setLoading(true);
 	let result = await axios.post('user/create',data)
 	axios.setLoading(false);

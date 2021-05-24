@@ -25,7 +25,7 @@
 						<text v-if="userInfo.id==items.user_id" @tap="deleteCom(items)">删除</text>
 					</view>
 					<!-- @tap="comment(items)" -->
-					<view class="uni-comment-content" @tap="comment(item)">{{items.content}}</view>
+					<view class="uni-comment-content" @tap="comment(item)">{{items.text}}</view>
 					<view class="uni-comment-date">
 						<view>{{time}}</view>
 					</view>
@@ -48,6 +48,7 @@
 		},
 		methods:{
 			comment(item){
+				console.log(item)
 				if(!this.userInfo.id){
 					this.$http.href('../../pages/login/login')
 					return 

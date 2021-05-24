@@ -6,6 +6,6 @@ import {
 
 export const  uploudFile = async (file) => {
 	const h = { "Content-Type": "multipart/form-data"} 
-	let url = await axios.post("user/icon",file,h)
+	let url = await axios.post("user/icon",file)
 	return url
 }

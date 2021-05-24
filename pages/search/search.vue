@@ -83,6 +83,7 @@
 				}
 				try{
 					data = await searchTopicList(this.page+1,this.searchtext,'')
+					console.log(data)
 					if(data.length===0){
 						this.issearch=true;
 						this.list = []

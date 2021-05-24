@@ -131,9 +131,8 @@
 					return;
 				}
 				// 请求服务器，发送验证码
-				let {
-					code
-				} = await getCode({"email":this.email})
+				
+				let code = await getCode({"email":this.email})
 				if(code){
 					this.$http.toast("验证码已发送");
 				}
@@ -164,9 +163,11 @@
 				if (!data || (data && !("id" in data))) {
 					let msg = data.error_msg
 					if(msg && data.code===409){
-						this.$http.toast("用户已存在");
+						this.$http.toast("用户名或邮箱已存在");
 					}else if(msg &&data.code===400){
 						this.$http.toast("请填写完整信息");
+					}else if(msg &&data.code===402){
+						this.$http.toast("验证码输入错误");
 					}
 					return
 				}

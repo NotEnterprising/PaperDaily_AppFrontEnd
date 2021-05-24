@@ -2,7 +2,7 @@
 	<view class="user-list u-f-ac animated fadeIn fast" @tap.stop="gotoInfo(item)">
 		<image :src="item.userpic" mode="widthFix" lazy-load></image>
 		<view >
-			<view>{{item.username}}</view>
+			<view>{{item.created_by.username}}</view>
 			<view class="wrap">
 				{{item.title}}
 			</view>

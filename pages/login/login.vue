@@ -191,7 +191,6 @@
 					username: this.mobile,
 					password: this.password
 				})
-				console.log(data)
 				if("code" in data){
 					if (data.code===401) {
 						this.$http.toast("账号或密码错误");
@@ -201,7 +200,6 @@
 					return
 				}
 					
-				uni.setStorageSync('userInfo', JSON.stringify(data.userInfo));
 				uni.setStorageSync('token', data.access_token);
 				uni.setStorageSync('refresh_token',data.refresh_token)
 				data.userInfo.userpic=picUrl+data.userInfo.userpic

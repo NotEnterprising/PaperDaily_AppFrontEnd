@@ -1,11 +1,13 @@
 import axios from '@/config/requestConfig.js';
 
 import {
-	headers,
 	picUrl
 } from './common.js'
 
 export const getUserAttList = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	let result = []
 	console.log(data)
 	axios.setLoading(false)
@@ -27,6 +29,9 @@ export const getUserAttList = async (data) => {
 }
 
 export const getUserFansList = async (uid,eachData) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	let result = []
 	axios.setLoading(false)
 	let fansData = await axios.get("fan/roll/"+uid,{},headers)
@@ -51,6 +56,9 @@ export const getUserFansList = async (uid,eachData) => {
 	return result
 }
 export const getUserEachList = async (uid) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	let result = []
 	axios.setLoading(false)
 	let eachData = await axios.get("friend/roll/"+uid,{},headers)

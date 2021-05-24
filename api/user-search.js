@@ -1,11 +1,13 @@
 import axios from '@/config/requestConfig.js';
 
 import {
-	headers,
 	picUrl
 } from './common.js'
 
 export const userAtt = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	axios.setLoading(false);
 	console.log(data)
 	let result = await axios.post('user/'+data+"/follow",{},headers)
@@ -14,6 +16,9 @@ export const userAtt = async (data) => {
 }
 
 export const searchUserList = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	let result = await axios.get('user/search/roll?key='+ data,{},headers)
 	console.log("begin:")
 	console.log(result)

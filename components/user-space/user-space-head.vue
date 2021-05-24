@@ -25,7 +25,6 @@
 
 <script>
 	import tagSexAge from "../common/tag-sex-age.vue";
-	import { headers } from "@/api/common.js"
 	export default {
 		components:{
 			tagSexAge
@@ -61,6 +60,9 @@
 					})
 				}
 				let data;
+				let headers = {
+					"Authorization":'Bearer ' + uni.getStorageSync('token')
+				}
 				if(this.userinfo.isguanzhu){
 					data=this.$http.post('user/'+this.userinfo.id+'/unfollow',{},headers)
 					this.$http.toast("取消关注!")

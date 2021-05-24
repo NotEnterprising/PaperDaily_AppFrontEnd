@@ -75,29 +75,41 @@
 				})
 			}
 			this.fid = data.fid
-			let fid = data.fid
+			let id = parseInt(data.fid)
 			let flag = true
-			if(!data.index&&!!fid){
-				// for(let i =0;i<this.chatList.length;i++){
-				// 	if(this.chatList[i].fid == fid){
-				// 		this.index = i
-				// 		this.setIndex(i)
-				// 		flag = false
-				// 		return
-				// 	}
-				// }
+			
+			if(!data.index){
+				for(let i =0;i<this.chatList.length;i++){
+					if(this.chatList[i].fid === id){
+						this.index = i
+						this.setIndex(i)
+						flag = false
+						uni.setNavigationBarTitle({
+							title:this.chatList[this.msgIndex].username
+						})
+						this.cId = this.chatList[i].id
+						return
+					}
+				}
 				if(flag){
-					this.fid = fid
+					console.log("test here")
+					this.fid = id
 					let chat = await createChat({
 						from_user_id: this.userInfo.id,
-						to_user_id:parseInt(fid),
+						to_user_id:parseInt(id),
 						chatroom_name:""
 					})
+					let ans=await getChat(chat.id,this.userInfo)
+					console.log(ans)
 					this.cId = chat.id
-					let ans=await getChat(chat.id)
-					chat.time= time.gettime.gettime(ans.afterTime)
+					console.log(this.cId)
+					// chat.time= time.gettime.gettime(ans.afterTime)
 					this.setIndex(0)
+					this.index = 0
 					this.addChatList(ans);
+					uni.setNavigationBarTitle({
+						title:ans.username
+					})
 				}
 
 			}else{
@@ -197,11 +209,12 @@
 					return
 				}
 				let msg =await pushMessage({
-					"cId": this.cId,
+					"cId": this.chatList[this.msgIndex].id,
 					"fromId": this.userInfo.id,
-					"toId": this.fid,
+					"toId": this.chatList[this.msgIndex].fid,
 					"content": data
 				}) 
+				
 				if(msg.code&&msg.code!=0){
 					uni.showToast({
 						title:'消息发送失败!',
@@ -222,7 +235,6 @@
 					}
 				this.addChatMessage(obj)
 				this.pageToBottom(true);
-				
 			}
 		}
 	}

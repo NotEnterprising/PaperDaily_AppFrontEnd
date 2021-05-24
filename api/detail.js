@@ -1,9 +1,11 @@
 import axios from '@/config/requestConfig.js';
 import {
-	headers,
 	picUrl
 } from './common.js'
 export const  getTopicDetail =async (id) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	let detail = await axios.get('Interpretation/'+ id,{},headers)
 	// if(detail.images==null||detail.images==''){
 	// 	detail.images = []
@@ -11,15 +13,17 @@ export const  getTopicDetail =async (id) => {
 	// 	detail.images = detail.images.split(",")
 	// }
 	detail.userpic=picUrl+detail.userpic
-	console.log(detail)
 	return detail
 }
 
 export const  pushHistory = async (data) => {
-	// let detail = await axios.post('topic/history',data)
+	// let detail = await axios.post('Interpretation/browsingRecords',data,headers)
 }
-export const  getCommentList = async (data) => {
-	console.log("[DEBUG]:getCommentList")
+
+export const  getCommentList = async (uid,data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	let result = await axios.get('comment',data,headers)
 	let temp=result.comment_list
 	let comments = temp.map((x) => {
@@ -27,7 +31,7 @@ export const  getCommentList = async (data) => {
 					id: x.id,
 					username: x.username,
 					created_at: x.created_at,
-					user_id: x.user_id,
+					user_id: uid,
 					text: x.text,
 					to: x.to_user ? x.to_user.username : 0,
 					toId: x.to_user ? x.to_user.id : '',
@@ -50,11 +54,17 @@ export const  getCommentList = async (data) => {
 	return {"ans":ans,"length":length}
 }
 export const  delComment = async (id) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	let result = await axios.post("comment/delete",{"id":id},headers)
 	return result
 }
 
 export const  addComment = async (data) => {
+	let headers = {
+		"Authorization":'Bearer ' + uni.getStorageSync('token')
+	}
 	let result = await axios.post("comment/create",data,headers)
 	return result
 }

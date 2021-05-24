@@ -20,9 +20,9 @@
 					<scroll-view 
 					@scroll="handleScroll"
 					 scroll-y class="list" refresher-enabled :refresher-triggered="refreshing" refresher-background="#fafafa"
-					 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" @scrolltolower="loadmore(index)">
+					 enable-back-to-top :refresher-threshold="100" @refresherrefresh="onrefresh" >
 						<!-- 图文列表 -->
-						<template v-if="items.list.length>0">
+						<template v-if="items.list.length>0 && tabIndex == 0">
 							<block v-for="(item,index1) in items.list" :key="index1">
 								<index-list 
 								@likeOrTread="likeOrTread" @opendDetail="opendDetail" @share="share" :item="item" :userInfo="userInfo"
@@ -30,6 +30,23 @@
 							</block> 
 							<load-more :loadtext="items.loadtext"></load-more>
 						</template>
+						
+						<!-- <template v-if="items.list.length>0&& tabIndex == 1">
+							<block v-for="(item,index1) in items.list" :key="index1">
+								<index-list 
+								@likeOrTread="likeOrTread" @opendDetail="opendDetail" @share="share" :item="item" :userInfo="userInfo"
+								 :index="index1"></index-list>
+							</block> 
+							<load-more :loadtext="items.loadtext"></load-more>
+						</template> -->
+						<template v-if="items.list.length>0 && tabIndex == 1">
+							<view class="topic-list">
+								<block v-for="(list,index1) in items.list" :key="index1">
+									<card @opendDetail="opendDetail" :cardinfo="list" :index="index1"></card>
+								</block>
+							</view>
+						</template>
+						
 						<template v-if="shoNo">
 							<!-- 无内容默认 -->
 							<no-thing></no-thing>
@@ -87,8 +104,10 @@
 	import noThing from "../../components/common/no-thing.vue";
 	import myNavBar from "../../components/common/my-nav-bar.vue";
 	import uniCalendar from '@/components/uni-calendar/uni-calendar.vue'
+	import card from '../../components/list-card/list-card-1.vue'
 	import {
-		getTopicList
+		getTopicList,
+		getRecommendList
 	} from '@/api/index.js'
 	import {
 		giveLike
@@ -104,7 +123,8 @@
 			loadMore,
 			noThing,
 			uniCalendar,
-			myNavBar
+			myNavBar,
+			card
 		},
 		data() {
 			return {
@@ -136,47 +156,8 @@
 						color: "#80D640",
 						size: 68,
 					}]
-					// }, {
-					// 	name: "支付宝",
-					// 	icon: "alipay",
-					// 	color: "#00AAEE",
-					// 	size: 68
-					// }, {
-					// 	name: "新浪微博",
-					// 	icon: "sina",
-					// 	color: "#F9C718",
-					// 	size: 68
-					// }, {
-					// 	name: "小程序",
-					// 	icon: "applets",
-					// 	color: "#2BA348",
-					// 	size: 68
-					// }, {
-					// 	name: "钉钉",
-					// 	icon: "dingtalk",
-					// 	color: "#2DA0F1",
-					// 	size: 68
-					// }, {
-					// 	name: "浏览器打开",
-					// 	icon: "explore-fill",
-					// 	color: "#1695F7",
-					// 	size: 68
-					// }, {
-					// 	name: "邮件",
-					// 	icon: "mail-fill",
-					// 	color: "#2868E5",
-					// 	size: 68
-					// }]
 				}, {
 					operate: [{
-					// 	name: "投诉",
-					// 	icon: "warning",
-					// 	size: 56
-					// }, {
-					// 	name: "复制链接",
-					// 	icon: "link",
-					// 	size: 56
-					// }, {
 						name: "刷新",
 						icon: "refresh",
 						size: 56
@@ -196,47 +177,17 @@
 						id: "hanfu",
 						page: 1
 					},
-					// {
-					// 	name: "娱乐",
-					// 	id: "yule",
-					// 	page: 1
-					// },
-					// {
-					// 	name: "二手",
-					// 	id: "ershou",
-					// 	page: 1
-					// },
-					// {
-					// 	name: "周边",
-					// 	id: "zhoubian",
-					// 	page: 1
-					// },
 				],
 				newslist: [{
-						loadtext: "上拉加载更多",
+						loadtext: "没有更多数据了",
 						id: "recommend",
 						list: []
 					},
 					{
-						loadtext: "上拉加载更多",
+						loadtext: "没有更多数据了",
 						id: "hotList",
 						list: []
 					},
-					// {
-					// 	loadtext: "上拉加载更多",
-					// 	id: "yule",
-					// 	list: []
-					// },
-					// {
-					// 	loadtext: "上拉加载更多",
-					// 	id: "ershou",
-					// 	list: []
-					// },
-					// {
-					// 	loadtext: "上拉加载更多",
-					// 	id: "zhoubian",
-					// 	list: []
-					// }
 				],
 
 
@@ -250,8 +201,6 @@
 				}
 			});
 			this.requestData()
-
-
 		},
 		onShow() {
 			// this.requestData()
@@ -279,25 +228,37 @@
 				})
 			}
 		},
+		
 		methods: {
 			async requestData(GoPage, Gotype) {
 				// let currentPage = GoPage || this.tabBars[this.tabIndex].page;
-				// let type = Gotype || this.tabBars[this.tabIndex].id;
+				let type = this.tabBars[this.tabIndex].id;
 				let items;
 				try {
-					items = await getTopicList()
+					if(this.tabIndex===1){
+						items = await getTopicList()
+					}else{
+						items = await getRecommendList()
+					}
+					console.log(items)
 				} catch (e) {
 					console.log(e)
 					return
 				}
+				
 				if (items && items.length === 0) {
 					this.tabBars[this.tabIndex].page = page
 					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
 					return
 				}
 				// this.tabBars[this.tabIndex].page = page
-				this.newslist[this.tabIndex].list = this.newslist[this.tabIndex].list.concat(items)
-				if (items && items.length < 5) {
+				// if(this.tabIndex === 1){
+				// 	this.newslist[this.tabIndex].list = items
+				// }else{
+				// 	this.newslist[this.tabIndex].list = this.newslist[this.tabIndex].list.concat(items)
+				// }
+				this.newslist[this.tabIndex].list = items
+				if (items) {
 					this.newslist[this.tabIndex].loadtext = "没有更多数据了";
 				}else{
 					this.newslist[this.tabIndex].loadtext = "上拉加载更多";
@@ -330,11 +291,11 @@
 				}, 300)
 			},
 			loadmore(index) {
-				if (this.newslist[index].loadtext != "上拉加载更多") {
-					return;
-				}
-				// 修改状态
-				this.newslist[index].loadtext = "加载中...";
+				// if (this.newslist[index].loadtext != "上拉加载更多") {
+				// 	return;
+				// }
+				// // 修改状态
+				// this.newslist[index].loadtext = "加载中...";
 				// const scrollTop = ev.detail.scrollTop;
 				// // 开始位置
 				// const start = Math.floor(scrollTop / this.size)
@@ -345,13 +306,13 @@
 				// const offset = scrollTop - (scrollTop % this.size) - this.preCount * this.size
 				// this.offset = offset < 0 ? 0 : offset;
 				// 获取数据
-				this.requestData(this.tabBars[this.tabIndex].page + 1)
+				// this.requestData(this.tabBars[this.tabIndex].page + 1)
 
 			},
 			handleScroll(ev) {
 				const scrollTop = ev.detail.scrollTop;
-				console.log(scrollTop)
-				console.log(this.newslist[this.tabIndex])
+				// console.log(scrollTop)
+				// console.log(this.newslist[this.tabIndex])
 				// 开始位置
 				const start = Math.floor(scrollTop / this.size)
 				this.start = start < 0 ? 0 : start;
@@ -762,5 +723,11 @@
 
 	.tui-hover {
 		background: rgba(0, 0, 0, 0.2)
+	}
+	
+	.topic-list{
+		box-sizing: border-box;
+		background-color: #F9F9F9;
+		padding: 5upx 20upx 0 30upx;
 	}
 </style>

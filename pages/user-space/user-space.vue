@@ -18,15 +18,8 @@
 		scrollStyle="border-bottom:0;">
 		</swiper-tab-head>
 		<view style="margin-bottom: 5upx;"></view>
+		
 		<template v-if="tabIndex==0">
-			<!-- 话题列表 -->
-			<view class="topic-view">
-			<block v-for="(list,index1) in titleList" :key="index1">
-				<topic-list :item="list" :index="index1"></topic-list>
-			</block>	
-			</view>
-		</template>
-		<template v-if="tabIndex==1">
 			<!-- 列表 -->
 			<view class="topic-list">
 			<block v-for="(list,listindex) in topicList" :key="listindex">
@@ -35,7 +28,8 @@
 			</view>
 			<!-- 上拉加载 -->
 		</template>
-		<template v-if="tabIndex==2">
+		
+		<template v-if="tabIndex==1">
 			<!-- 主页 -->
 			<user-space-userinfo 
 				:userinfo="info"
@@ -80,19 +74,20 @@
 			loadMore,
 			userSpacePopup,
 			card,
-			topicList		},
+			topicList		
+		},
 		computed:{
 			...mapState(['userInfo'])
 		},
 		onLoad(data) {
 			this.info.id = data.uid
 			this.initData(data.uid)
-			if(data.uid!=this.userInfo.id){
-				saveUserAccess({
-					fromId:this.userInfo.id?this.userInfo.id:(+new Date+"").slice(5),
-					toId: data.uid
-				})
-			}
+			// if(data.uid!=this.userInfo.id){
+			// 	saveUserAccess({
+			// 		fromId:this.userInfo.id?this.userInfo.id:(+new Date+"").slice(5),
+			// 		toId: data.uid
+			// 	})
+			// }
 		},
 		data() {
 			return {
@@ -121,7 +116,6 @@
 				tabIndex:0,
 				tabBars:[
 					{ name:"论文解读",id:"lunwenjiedu" },
-					{ name:"动态",id:"dongtai" },
 					{ name:"主页",id:"zhuye" },
 				],
 				tablist:[ {},
@@ -136,7 +130,7 @@
 						list:[
 						]
 					},
-				]
+				],
 			}
 		},
 		// 上拉触底事件
@@ -150,25 +144,25 @@
 		methods: {
 			async initData(id){
 				let data = await getUserInfo({"user_id":id});
-				// let topicList = await getTopicListByUid(id);
+				let topicList = await getTopicListByUid(id);
 				// let topicTitleList = await getTopicTitleByUid(id);
 				// if(Array.isArray(topicTitleList)){
 				// 	this.titleList = topicTitleList
 				// }
-				// this.topicList = topicList
+				this.topicList = topicList
 
 				if("id" in data){
-				this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+"k":data.total_like
-				this.spacedata[1].num = data.total_fan
-				this.spacedata[2].num = data.total_fan
-				let currentId = this.userInfo.id
-				this.info.currentId = currentId;
-				this.info.userpic = picUrl+data.userpic;
-				this.info.username = data.username;
-				this.info.email = data.email
-				this.info.institution=data.institution
-				this.info.isguanzhu = data.is_following;
-				this.info.id = data.id;
+					this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+"k":data.total_like
+					this.spacedata[1].num = data.total_fan
+					this.spacedata[2].num = data.total_fan
+					let currentId = this.userInfo.id
+					this.info.currentId = currentId;
+					this.info.userpic = picUrl+data.userpic;
+					this.info.username = data.username;
+					this.info.email = data.email
+					this.info.institution=data.institution
+					this.info.isguanzhu = data.is_following;
+					this.info.id = data.id;
 				}
 			},
 			userActive(){
@@ -186,7 +180,6 @@
 			},
 			// 私信
 			lahei(){
-				console.log("私信")
 				if(this.info.id==this.userInfo.id){
 					return
 				}

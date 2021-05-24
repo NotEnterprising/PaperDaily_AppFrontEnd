@@ -61,7 +61,7 @@
 		methods: {
 			async initData() {
 				if (this.userInfo.id) {
-					let data =await getTopicCollect()
+					let data =await getTopicCollect(1,{num_per_page:100000,interpretation:true})
 					if( data.length==0){
 						this.loadtext = '收藏为空'
 						return
@@ -71,12 +71,16 @@
 				}
 			},
 			onClick(item, index) {
-				deleteCollect(item.id)
+				let headers = {
+					"Authorization":'Bearer ' + uni.getStorageSync('token')
+				}
+				this.$http.post('Interpretation/'+item.id+'/unfavor',{},headers)
+				this.$http.toast("取消收藏!")
 				this.list.splice(index, 1)
 			},
 			gotoTopicInfo(item) {
 				uni.navigateTo({
-					url: '../../pages/detail/detail?id=' + item.tid,
+					url: '../../pages/detail/detail?id=' + item.id,
 				});
 			}
 		}

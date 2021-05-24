@@ -107,7 +107,7 @@
 				homedata: [
 					// { name:"话题", num:0 },
 					{
-						name: "动态",
+						name: "主页",
 						num: 0
 					},
 					{
@@ -151,14 +151,15 @@
 					let userProfile = await getUserProfile()
 					this.homeinfo.total_like = userProfile.total_like
 					this.homeinfo.total_post = userProfile.total_post
-					this.homeinfo.total_fan = userProfile.total_collect
+					this.homeinfo.total_collect = userProfile.total_collect
 					this.homeinfo.email = userProfile.email
 					this.homedata[0].num = userProfile.total_post
-					this.homedata[1].num = userProfile.total_fan
+					this.homedata[1].num = userProfile.total_comment
 					this.homedata[2].num = userProfile.total_collect
 					this.islogin = true
 				}
 			},
+			
 			goToSpace(index) {
 				// if(this.userInfo.id){
 				// 	this.$http.href('../login/login')
@@ -169,7 +170,7 @@
 							this.$http.href('../../pages/user-space/user-space?uid=' + this.userInfo.id)
 						break;
 					case 1:
-						this.$http.href('../../pages/user-comment/user-comment?uid=' + this.userInfo.id)
+						// this.$http.href('../../pages/user-comment/user-comment?uid=' + this.userInfo.id)
 
 						break;
 					case 2:
