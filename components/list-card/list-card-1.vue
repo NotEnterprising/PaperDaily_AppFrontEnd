@@ -6,7 +6,7 @@
 				{{cardinfo.index+"		"}}
 				</text>
 				<text style="font-weight: 650;font-size:medium;">				
-				{{cardinfo.content.slice(0,25)}}
+				{{cardinfo.content.slice(0,20)}}
 				</text>
 			</view>
 			

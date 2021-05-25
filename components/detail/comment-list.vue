@@ -7,7 +7,9 @@
 					<text>{{item.username}}</text>
 					<text v-if="userInfo.id==item.user_id" @tap="deleteCom(item)">删除</text>
 				</view>
-				<view class="uni-comment-content" @tap="comment(item)">{{item.text}}</view>
+				<view class="uni-comment-content" @tap="comment(item)">
+				<rich-text v-html="item.text"></rich-text>
+				</view>
 				<view class="uni-comment-date">
 					<view>{{time}}</view>
 				</view>
@@ -25,7 +27,9 @@
 						<text v-if="userInfo.id==items.user_id" @tap="deleteCom(items)">删除</text>
 					</view>
 					<!-- @tap="comment(items)" -->
-					<view class="uni-comment-content" @tap="comment(item)">{{items.text}}</view>
+					<view class="uni-comment-content" @tap="comment(item)">
+					<rich-text v-html="item.text"></rich-text>
+					</view>
 					<view class="uni-comment-date">
 						<view>{{time}}</view>
 					</view>

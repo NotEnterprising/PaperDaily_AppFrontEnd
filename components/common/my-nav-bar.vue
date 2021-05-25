@@ -1,19 +1,23 @@
 <template>
-		<tui-navigation-bar backgroundColor="255,255,255" :isFixed="false" :isOpcity="false">
-			<view class="tui-content-box">
-				<!-- <view class="tui-avatar-box" @tap="skipToSearch(1)">
-					<tui-icon name="signin" color="#FFE933" :size="64"></tui-icon>
-				</view> -->
-				<view class="tui-search-box" @tap="skipToSearch(2)">
-					<tui-icon name="search-2" :size="36" color="#bfbfbf"></tui-icon>
-					<view class="tui-search-text">请输入搜索关键字</view>
-				</view>
-				<!-- <view class="tui-notice-box" @tap="skipToSearch(3)">
-					<tui-icon name="add" color="#FFE933" :size="64"></tui-icon> -->
-					<!-- <tui-badge type="danger" absolute :scaleRatio="0.8" top="16rpx">1</tui-badge> -->
-				<!-- </view> -->
+		<view class="search-view">
+				<template>
+						<tui-navigation-bar backgroundColor="255,255,255" :isFixed="false" :isOpcity="false">
+							<view class="tui-content-box">
+								<!-- <view class="tui-avatar-box" @tap="skipToSearch(1)">
+									<tui-icon name="signin" color="#FFE933" :size="64"></tui-icon>
+								</view> -->
+								<view class="tui-search-box" @tap="skipToSearch(2)">
+									<tui-icon name="search-2" :size="36" color="#bfbfbf"></tui-icon>
+									<view class="tui-search-text">请输入搜索关键字</view>
+								</view>
+								<!-- <view class="tui-notice-box" @tap="skipToSearch(3)">
+									<tui-icon name="add" color="#FFE933" :size="64"></tui-icon> -->
+									<!-- <tui-badge type="danger" absolute :scaleRatio="0.8" top="16rpx">1</tui-badge> -->
+								<!-- </view> -->
+							</view>
+						</tui-navigation-bar>
+				</template>
 			</view>
-		</tui-navigation-bar>
 </template>
 
 <script>
@@ -120,7 +124,7 @@
 
 	.tui-content-box {
 		width: 100%;
-		height: 88upx;
+		height: 100upx;
 		padding: 0 30upx;
 		box-sizing: border-box;
 		display: flex;
@@ -169,5 +173,10 @@
 		flex-shrink: 0;
 		font-size: 44upx;
 		color: #fff;
+	}
+	
+	.search-view{
+		background-color: #ffffff;
+		padding-top: 50upx;
 	}
 </style>

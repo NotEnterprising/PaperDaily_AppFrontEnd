@@ -30,7 +30,13 @@ export const getChatList = async (userInfo) => {
 				time.gettime.gettime(new Date())
 			let message = item.message_list[len] ? item.message_list[len].content :
 				''
-			let msgList = item.message_list.map((mItem) => {
+			let day = 0;
+			let msgList = item.message_list.map((mItem,index,arr) => {
+				if(index==0){
+					day=0
+				}else{
+					day=arr[index-1].created_at
+				}
 				return {
 					id: mItem.message_id,
 					isme: mItem.from_user_id == userInfo.id,
@@ -39,10 +45,12 @@ export const getChatList = async (userInfo) => {
 					type: "text",
 					message: mItem.content,
 					time: time.gettime.gettime(mItem.created_at),
-					gstime: time.gettime.getChatTime(mItem.created_at),
+					gstime: time.gettime.getChatTime(mItem.created_at,day),
+					created_at:mItem.created_at,
 					status: mItem.read_state,
 				}
-			})
+			}
+			)
 			return {
 				id: item.chatroom_id,
 				fid: fid,
@@ -57,6 +65,7 @@ export const getChatList = async (userInfo) => {
 				messages: msgList
 			}
 		})
+		console.log(chatList)
 		return chatList
 	}
 }

@@ -92,7 +92,6 @@
 					}
 				}
 				if(flag){
-					console.log("test here")
 					this.fid = id
 					let chat = await createChat({
 						from_user_id: this.userInfo.id,
@@ -231,7 +230,8 @@
 						type:"text",
 						message:data,
 						time:  time.gettime.gettime(now),
-						sendTime:now
+						gstime: now,
+						created_at:now,
 					}
 				this.addChatMessage(obj)
 				this.pageToBottom(true);

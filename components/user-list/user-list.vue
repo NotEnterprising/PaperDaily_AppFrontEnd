@@ -8,8 +8,6 @@
 			</view>
 		</view>
 		<view class="icon iconfont u-f-ajc" 
-			:class="[item.isguanzhu?'icon-xuanze-yixuan':'icon-zengjia1']"
-			@tap.stop="attActive"
 			></view>
 	</view>
 </template>

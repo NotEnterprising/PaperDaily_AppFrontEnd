@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import createLogger from 'vuex/dist/logger'
 import time from '../common/time.js'
+
 import {
 	createSocket,
 	readChatMsg
@@ -88,10 +89,17 @@ const store = new Vuex.Store({
 			state.chatList[state.msgIndex].noreadnum = 0
 		},
 		addChatMessage(state, obj) {
-			state.chatList[state.msgIndex].message = obj.message
+			state.chatList[state.msgIndex].message = obj.message	
+			let len=state.chatList[state.msgIndex].messages.length
+			if(len == 0){
+				obj.gstime=time.gettime.getChatTime(obj.gstime,0)
+			}else{
+				obj.gstime=time.gettime.getChatTime(obj.gstime,state.chatList[state.msgIndex].messages[len-1].created_at)
+			}
 			state.chatList[state.msgIndex].time = obj.time
 			state.chatList[state.msgIndex].afterTime = +new Date(obj.sendTime)
 			state.chatList[state.msgIndex].messages.push(obj)
+			
 
 		},
 		sortChatList(state) {

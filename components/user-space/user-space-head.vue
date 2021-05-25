@@ -1,6 +1,6 @@
 <template>
 	<view class="user-space-head u-f-ajc">
-		<image :src="getBgImg" mode="widthFix" lazy-load @tap.stop="changBgImg"></image>
+		<image :src="getBgImg" mode="widthFix" lazy-load></image>
 		<view class="user-space-head-info u-f-ajc u-f-column">
 			<image :src="userinfo.userpic" mode="widthFix" lazy-load></image>
 			<view class="user-space-margin u-f-ac">

@@ -105,6 +105,15 @@
 			});
 			this.initData()
 		},
+		onShow(){
+			uni.getSystemInfo({
+				success: (res)=> {
+					let height=res.windowHeight-uni.upx2px(100)
+					this.swiperheight=height;
+				}
+			});
+			this.initData()
+		},
 		// 监听搜索框文本变化
 		onNavigationBarSearchInputChanged(e){
 			this.searchtext=e.text;
@@ -122,7 +131,7 @@
 					}
 
 				})
-				}
+			}
 		},
 		// 监听导航按钮事件
 		onNavigationBarButtonTap(e) {

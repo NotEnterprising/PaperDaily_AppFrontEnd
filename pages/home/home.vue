@@ -4,8 +4,6 @@
 			<!-- 未登录 -->
 			<view class="u-f-ajc">登陆PaperDaily，体验更多功能</view>
 			<!-- 第三方登陆 -->
-			<other-login></other-login>
-			<!-- 账号密码登陆 -->
 			<view class="u-f-ajc" @tap="openLogin">账号密码登陆 <view class="icon iconfont icon-jinru"></view>
 			</view>
 		</template>
@@ -149,6 +147,7 @@
 			async initDat() {
 				if (this.userInfo && this.userInfo.id) {
 					let userProfile = await getUserProfile()
+					console.log(userProfile)
 					this.homeinfo.total_like = userProfile.total_like
 					this.homeinfo.total_post = userProfile.total_post
 					this.homeinfo.total_collect = userProfile.total_collect

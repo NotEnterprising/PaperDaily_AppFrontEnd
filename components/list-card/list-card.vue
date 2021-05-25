@@ -3,7 +3,7 @@
 		<view class="father-box">
 			<view class="content" @tap="gotoTopicInfo">
 				<text style="font-weight: bold;font-size:small;">				
-				{{cardinfo.content.slice(0,35)}}....
+				{{cardinfo.content.slice(0,20)}}
 				</text>
 			</view>
 			

@@ -153,7 +153,7 @@
 
 				if("id" in data){
 					this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+"k":data.total_like
-					this.spacedata[1].num = data.total_fan
+					this.spacedata[1].num = data.total_follow
 					this.spacedata[2].num = data.total_fan
 					let currentId = this.userInfo.id
 					this.info.currentId = currentId;
