@@ -35,7 +35,7 @@
 				type: Object
 			},
 			userpic:Object,
-			index:Number
+			index:Number,
 		},
 		data() {
 			return {

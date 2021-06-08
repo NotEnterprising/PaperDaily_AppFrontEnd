@@ -190,34 +190,9 @@
 				});
 			},
 			async submit(){
-				let url = this.userpic;
-				if(this.authorFile!=undefined){
-					 url =uploudFile(this.authorFile)
-				}
-				
-				let data = {
-					authorUrl: url,
-					userName:this.username,
-					gender:this.sex=="男"?0:1,
-					occupation:this.job,
-					birthday:this.birthday,
-					address: this.pickerText,
-				}
-				let res = await updateUserInfo(data)
-				if(res.code==0){
-					let data = await getUserInfo("user/info")
-					console.log(data)
-					if(data.code==0){
-						this.setUserInfo(data.data.userInfo)
-						uni.setStorageSync('token',data.data.token)
-						uni.setStorageSync('userInfo',JSON.stringify(data.data.userInfo))
-						uni.showToast({
-							title:"信息修改成功",
-							icon:'success'
-						})
-						
-					}
-				}
+				uni.navigateBack({
+					delta: 1
+				})
 			},
 			getDate(type) {
 				const date = new Date();

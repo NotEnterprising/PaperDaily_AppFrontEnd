@@ -3,6 +3,7 @@
 		<!-- 背景图 + 用户基本信息 -->
 		<user-space-head 
 			@userActive="userActive"
+			@refreshData="refreshData"
 			:userinfo="info"></user-space-head>
 		<!-- 统计 -->
 		<view class="user-space-data">
@@ -89,8 +90,24 @@
 			// 	})
 			// }
 		},
+		onHide() {
+		    uni.hideLoading(); 
+		    this.ifOnShow = true;
+		},
+		onShow() {
+		    if (this.ifOnShow == true) {
+			this.initData(this.info.id)
+		      window.location.reload();//返回当前页面强制书哈辛
+		    } 
+		},
+		provide () {
+		    return {
+		      reload: this.initData(this.info.id)
+		    }
+		},
 		data() {
 			return {
+				ifOnShow: false,//首先设置ifOnShow不然会一直循环刷新
 				show:false,
 				info:{
 					currentId: -1,
@@ -145,10 +162,6 @@
 			async initData(id){
 				let data = await getUserInfo({"user_id":id});
 				let topicList = await getTopicListByUid(id);
-				// let topicTitleList = await getTopicTitleByUid(id);
-				// if(Array.isArray(topicTitleList)){
-				// 	this.titleList = topicTitleList
-				// }
 				this.topicList = topicList
 
 				if("id" in data){
@@ -168,6 +181,22 @@
 			userActive(){
 				this.info.isguanzhu = !this.info.isguanzhu
 			},
+			async refreshData(){
+				let data = await getUserInfo({"user_id":this.info.id});			
+				if("id" in data){
+					this.spacedata[0].num = data.total_like>=1000?(data.total_like/1000)+"k":data.total_like
+					this.spacedata[1].num = data.total_follow
+					this.spacedata[2].num = data.total_fan
+					let currentId = this.userInfo.id
+					this.info.currentId = currentId;
+					this.info.userpic = picUrl+data.userpic;
+					this.info.username = data.username;
+					this.info.email = data.email
+					this.info.institution=data.institution
+					this.info.isguanzhu = data.is_following;
+					this.info.id = data.id;
+				}
+			},
 			gotoTopic(index){
 				let topicDetail = this.topicList[index];
 				uni.navigateTo({
@@ -181,6 +210,7 @@
 			// 私信
 			lahei(){
 				if(this.info.id==this.userInfo.id){
+					this.$http.toast("无法向自己发送私信！")
 					return
 				}
 				this.togleShow();

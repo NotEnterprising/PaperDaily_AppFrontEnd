@@ -287,8 +287,8 @@
 				await this.requestData()
 				setTimeout(() => {
 					this.refreshing = false;
-					this.$http.toast("已为你更新最新内容~")
-				}, 300)
+					uni.showToast({title:'已更新',duration:500})
+				}, 200)
 			},
 			loadmore(index) {
 				// if (this.newslist[index].loadtext != "上拉加载更多") {

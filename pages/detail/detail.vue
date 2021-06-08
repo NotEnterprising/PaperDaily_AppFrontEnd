@@ -18,9 +18,9 @@
 
 		<!-- 输入框 -->
 		<!-- <user-chat-bottom @submit="submit"></user-chat-bottom> -->
-		<t-rt-popup :itemList="itemList" ref="rtBubble" @click="itemClick"></t-rt-popup>
+		<!-- <t-rt-popup :itemList="itemList" ref="rtBubble" @click="itemClick"></t-rt-popup> -->
 		<!-- 分享 -->
-		<more-share :show="shareshow" @togle="togle"></more-share>
+		<!-- <more-share :show="shareshow" @togle="togle"></more-share> -->
 		<pl-comment ref="plComment" :maskState="maskState" @toggleState="toggleState" :placeholder="placeText" @pubComment="pubComment"></pl-comment>
 	</view>
 </template>
@@ -47,6 +47,8 @@
 		mapState,
 		mapMutations
 	} from "vuex"
+	
+	var graceRichText = require("../../components/common/richText.js");
 	export default {
 		components: {
 			tRtPopup,
@@ -94,12 +96,26 @@
 
 			}
 		},
+		onShow(){
+			try {
+				this.initData(this.detail.id)
+			} catch (e) {
+			
+			}
+		},
 		// 监听导航右边按钮
 		onNavigationBarButtonTap(e) {
-			this.rtBubble()
+			// this.rtBubble()
 			// if (e.index == 0) {
 			// 	this.togle();
 			// }
+			// let pages = getCurrentPages(); // 当前页面
+			// let beforePage = pages[pages.length - 2]; // 前一个页面
+			// uni.navigateBack({
+			// 	success: function() {
+			// 		beforePage.onshow(); // 执行前一个页面的onLoad方法
+			// 	},
+			// });
 		},
 		computed: {
 			...mapState(['userInfo'])
@@ -115,7 +131,7 @@
 				this.detail = detail
 				this.comment.count = detail.commentNum
 				this.created_by = detail.created_by
-				this.detail.content=this.formatRichText(this.detail.content)
+				this.detail.content= graceRichText.format(this.detail.content)
 				this.getcomment(detail.uid);
 				
 				this.$nextTick(()=>{

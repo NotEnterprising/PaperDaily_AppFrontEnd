@@ -30,18 +30,22 @@
 			if(uni.getStorageSync('refresh_token')){
 				res = await tokenRefresh()
 			}
-			res.userInfo.userpic=picUrl+res.userInfo.userpic
 			if(res && res.code==401){
 				uni.clearStorageSync('token')
 				uni.clearStorageSync('chatList')
 				this.setChatList([])
 				this.setUserInfo({})
+				this.$http.href("pages/login/login")
 			}else{
 				if(res&&res.access_token){
 					uni.setStorageSync('token',res.access_token)
+					res.userInfo.userpic=picUrl+res.userInfo.userpic
 					this.setUserInfo(res.userInfo)
 					//this.$store.dispatch('setSocketV',res.userInfo.id)
-				}			
+					this.$http.href("pages/home/home")
+				}else{
+					this.$http.href("pages/login/login")
+				}		
 			}
 		},
 		onHide: function () {

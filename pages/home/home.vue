@@ -150,11 +150,11 @@
 					console.log(userProfile)
 					this.homeinfo.total_like = userProfile.total_like
 					this.homeinfo.total_post = userProfile.total_post
-					this.homeinfo.total_collect = userProfile.total_collect
+					this.homeinfo.total_collect = userProfile.total_mycollect
 					this.homeinfo.email = userProfile.email
 					this.homedata[0].num = userProfile.total_post
 					this.homedata[1].num = userProfile.total_comment
-					this.homedata[2].num = userProfile.total_collect
+					this.homedata[2].num = userProfile.total_mycollect
 					this.islogin = true
 				}
 			},

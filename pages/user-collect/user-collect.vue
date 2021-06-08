@@ -34,6 +34,9 @@
 		computed: {
 			...mapState(['userInfo'])
 		},
+		onShow(){
+			this.initData()
+		},
 		data() {
 			return {
 				list: [],

@@ -66,9 +66,11 @@
 				if(this.userinfo.isguanzhu){
 					data=this.$http.post('user/'+this.userinfo.id+'/unfollow',{},headers)
 					this.$http.toast("取消关注!")
+					await this.$emit("refreshData")
 				}else{
 					data=this.$http.post('user/'+this.userinfo.id+'/follow',{},headers)
-					this.$http.toast("关注成功!")			
+					this.$http.toast("关注成功!")	
+					await this.$emit("refreshData")
 				}
 				if(data.code==0){
 					uni.showToast({

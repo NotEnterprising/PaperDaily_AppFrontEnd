@@ -8,7 +8,8 @@
 					<text v-if="userInfo.id==item.user_id" @tap="deleteCom(item)">删除</text>
 				</view>
 				<view class="uni-comment-content" @tap="comment(item)">
-				<rich-text v-html="item.text"></rich-text>
+				<!-- <rich-text v-html="item.text"></rich-text> -->
+				<text style="word-break:break-all;">{{item.text}}</text>
 				</view>
 				<view class="uni-comment-date">
 					<view>{{time}}</view>

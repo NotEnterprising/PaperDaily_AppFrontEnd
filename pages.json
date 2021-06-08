@@ -1,17 +1,6 @@
 {
 	"pages": [
 		{
-			"path": "pages/login/login",
-			"style": {
-				"navigationBarTitleText": "登录",
-				"app-plus": {
-					"titleNView": false,
-					"bounce": "none",
-					"scrollIndicator": "none"
-				}
-			}
-		},
-		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "首页",
@@ -22,6 +11,17 @@
 				}
 			}
 		}, 
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"app-plus": {
+					"titleNView": false,
+					"bounce": "none",
+					"scrollIndicator": "none"
+				}
+			}
+		},
 		{
 			"path": "pages/news/news",
 			"style": {

@@ -37,9 +37,9 @@
 
 			
 			<view class="topic-active">
-				<view class="active-comm" @tap="share">
-					<tui-icon name="share" :size="size" unit="upx"></tui-icon>
-					<text class="active-text">转发</text>
+				<view class="active-comm" @tap="onCollect">
+					<tui-icon :name="item.is_favor?'star-fill':'star'" :color="item.is_favor?'#FFE933':''"  :size="size" unit="upx"></tui-icon>
+					<text class="active-text">{{item.is_favor?"取消收藏": "收藏"}}</text>
 				</view>
 				<view class="active-comm" @tap="opendetail">
 					<tui-icon name="community" :size="size" unit="upx"></tui-icon>
@@ -112,9 +112,23 @@
 					urls:this.item.images
 				})
 			},
-			share(){
-				this.$emit("share")
-			}
+			onCollect(){
+				let headers = {
+					"Authorization":'Bearer ' + uni.getStorageSync('token')
+				}
+				if(!this.userInfo.id){
+					this.$http.href('../../pages/login/login')
+					return 
+				}
+				if(this.item.is_favor){
+					this.$http.post('Interpretation/'+this.item.id+'/unfavor',{},headers)
+					this.$http.toast("取消收藏!")
+				}else{
+					this.$http.post('Interpretation/'+this.item.id+'/favor',{},headers)
+					this.$http.toast("收藏成功!")
+				}
+				this.item.is_favor = !this.item.is_favor
+			},
 		}
 	}
 </script>

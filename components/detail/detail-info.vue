@@ -12,12 +12,12 @@
 							<text class="author-name">{{created_by.username}} </text>
 						</view>
 					</view>
-					<template v-if="!isme">
+<!-- 					<template v-if="!isme">
 						<view v-if="!isguanzhu" @tap="guanzhu"
 							class="icon iconfont icon-zengjia guanzhu">关注</view>
 						<view v-else @tap="guanzhu"
 							class="icon iconfont guanzhu">取消关注</view>
-					</template>
+					</template> -->
 				</view>
 				<view class="common-list-r-time">{{createDate}}</view>
 			</view>
@@ -150,25 +150,6 @@
 				
 				}
 				this.item.is_like = !this.item.is_like
-			},
-			formatRichText (html) {
-							// 去掉img标签里的style、width、height属性
-							let newContent= html.replace(/<img[^>]*>/gi,function(match,capture){
-								match = match.replace(/style="[^"]+"/gi, '').replace(/style='[^']+'/gi, '');
-								match = match.replace(/width="[^"]+"/gi, '').replace(/width='[^']+'/gi, '');
-								match = match.replace(/height="[^"]+"/gi, '').replace(/height='[^']+'/gi, '');
-								return match;
-							});
-							// 修改所有style里的width属性为max-width:100%
-							newContent = newContent.replace(/style="[^"]+"/gi,function(match,capture){
-								match = match.replace(/width:[^;]+;/gi, 'max-width:100%;').replace(/width:[^;]+;/gi, 'max-width:100%;');
-								return match;
-							});
-							// 去掉<br/>标签
-							newContent = newContent.replace(/<br[^>]*\/>/gi, '');
-							// img标签添加style属性：max-width:100%;height:auto
-							newContent = newContent.replace(/\<img/gi, '<img style="max-width:100%;height:auto;display:block;margin:0px auto;"');
-							return newContent;
 			},
 		}
 	}
